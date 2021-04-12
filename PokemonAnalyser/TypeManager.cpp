@@ -159,7 +159,7 @@ void TypeManager::Summary()
 			Type current = !j ? typesByOffence.at(i) : j == 1 ? typesByDefence.at(i) : typesByTotal.at(i);
 			int value = !j ? current.GetOffensiveStat() : j == 1 ? current.GetDefensiveStat() : current.GetTotalStat();
 			std::cout << std::setw(25) << TypeToString(current.GetType()) + ":" + std::to_string(value) << "\t";
-			if(i != types.size() - 1) outFile << TypeToString(current.GetType()) + ":" + std::to_string(value) << ",";
+			if(j != 2) outFile << TypeToString(current.GetType()) + ":" + std::to_string(value) << ",";
 			else outFile << TypeToString(current.GetType()) + ":" + std::to_string(value) << "\n";
 		}
 		std::cout << std::endl;
