@@ -220,7 +220,7 @@ void TypeManager::OutputResults()
 				if (damageMap[s]) {
 					std::string info = DamageToString(s) + "[" + std::to_string(damageMap[s]) + "]: ";
 					std::cout << std::setw(24) << info;
-					outFile << info << ",";
+					outFile << info;
 					
 					std::cout << effects.at(s).substr(3, effects.at(s).size() - 1) << std::endl;
 					outFile << effects.at(s) << "\n";
