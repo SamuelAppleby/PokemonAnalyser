@@ -192,16 +192,16 @@ void TypeManager::OutputResults()
 				std::string value = TypeToString(x.first);
 				switch (x.second) {
 				case NO_EFFECT:
-					effects.at(0).append("   " + value);
+					effects.at(0).append(" , " + value);
 					break;
 				case NOT_VERY_EFFECTIVE:
-					effects.at(1).append("   " + value);
+					effects.at(1).append(" , " + value);
 					break;
 				case EFFECTIVE:
-					effects.at(2).append("   " + value);
+					effects.at(2).append(" , " + value);
 					break;
 				case SUPER_EFFECTIVE:
-					effects.at(3).append("   " + value);
+					effects.at(3).append(" , " + value);
 					break;
 				}
 			}
@@ -220,10 +220,10 @@ void TypeManager::OutputResults()
 				if (damageMap[s]) {
 					std::string info = DamageToString(s) + "[" + std::to_string(damageMap[s]) + "]: ";
 					std::cout << std::setw(24) << info;
-					outFile << info;
+					outFile << info << ", ";
 					
 					std::cout << effects.at(s).substr(3, effects.at(s).size() - 1) << std::endl;
-					outFile << "," << effects.at(s) << "\n";
+					outFile << effects.at(s) << "\n";
 				}
 			}
 			int stat = !i ? t.GetOffensiveStat() : t.GetDefensiveStat();
