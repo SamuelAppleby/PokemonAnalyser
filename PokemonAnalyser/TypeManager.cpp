@@ -150,7 +150,7 @@ void TypeManager::Summary()
 	for (int i = 0; i < 3; ++i) {
 		std::string title = !i ? "SORTED BY OFFENSIVE STAT" : i == 1 ? "SORTED BY DEFENSIVE STAT" : "SORTED BY TOTAL STAT";
 		std::cout << std::setw(25) << title << "\t";
-		outFile << title << ",";
+		if(i !=2 ) outFile << title << ",";
 	}
 	std::cout << std::endl;
 	outFile << "\n";
@@ -220,7 +220,7 @@ void TypeManager::OutputResults()
 				if (damageMap[s]) {
 					std::string info = DamageToString(s) + "[" + std::to_string(damageMap[s]) + "]: ";
 					std::cout << std::setw(24) << info;
-					outFile << info << ", ";
+					outFile << info;
 					
 					std::cout << effects.at(s).substr(3, effects.at(s).size() - 1) << std::endl;
 					outFile << effects.at(s) << "\n";
