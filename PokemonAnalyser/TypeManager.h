@@ -15,9 +15,17 @@ public:
 	DamageResult ConvertDamageName(std::string damage);
 	std::string TypeToString(PokemonType type);
 	std::string DamageToString(DamageResult type);
-	void AnalyseResults();
+	void AnalyseTypes();
+	void Summary();
 	void OutputResults();
+	void SortTypesByOffense(std::vector<Type>& sort);
+	void SortTypesByDefense(std::vector<Type>& sort);
+	void SortTypesByTotal(std::vector<Type>& sort);
+
 private:
 	std::vector<Type> types;
+	std::vector<Type> typesByOffence;
+	std::vector<Type> typesByDefence;
+	std::vector<Type> typesByTotal;
 };
 

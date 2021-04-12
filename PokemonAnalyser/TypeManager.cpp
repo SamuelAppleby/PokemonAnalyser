@@ -1,6 +1,7 @@
 #include "TypeManager.h"
 #include <string>
-
+#include <iomanip>
+#include <fstream>
 TypeManager::TypeManager(std::ifstream& stream) 
 {
 	std::string line;
@@ -121,64 +122,146 @@ std::string TypeManager::DamageToString(DamageResult type)
 	return std::string();
 }
 
-void TypeManager::AnalyseResults()
+void TypeManager::AnalyseTypes()
 {
 	for (auto& t : types) {
 		t.Analyse();
 	}
+	typesByOffence = types;
+	SortTypesByOffense(typesByOffence);
+
+	typesByDefence = types;
+	SortTypesByDefense(typesByDefence);
+
+	typesByTotal = types;
+	SortTypesByTotal(typesByTotal);
+}
+
+void TypeManager::Summary()
+{
+	for (int i = 0; i < 3; ++i) {
+		std::string title = !i ? "SORTED BY OFFENSIVE STAT" : i == 1 ? "SORTED BY DEFENSIVE STAT" : "SORTED BY TOTAL STAT";
+		title.insert(title.begin(), 24 - title.length(), ' ');
+
+		std::cout << std::endl <<  title << std::endl;
+		std::vector<Type> sorted = !i ? typesByOffence : i == 1 ? typesByDefence : typesByTotal;
+
+		for (auto& t : sorted) {
+			int value = !i ? (int)t.GetOffensiveStat() : i == 1 ? (int)t.GetDefensiveStat() :(int)t.GetTotalStat();
+			std::string info = TypeToString(t.GetType()) + ":" + std::to_string(value);
+			info.insert(info.begin(), title.length() - info.length(), ' ');
+			std::cout << info << std::endl;
+		}
+	}
+
+	std::ofstream outFile;
+	outFile.open("summary.csv");
+	if (!outFile) {
+		std::cout << "Cannot Create File";
+		return;
+	}
+	for (int i = 0; i < 3; ++i) {
+		std::string title = !i ? "SORTED BY OFFENSIVE STAT" : i == 1 ? "SORTED BY DEFENSIVE STAT" : "SORTED BY TOTAL STAT";
+		outFile << title << ",";
+	}
+	outFile << "\n";
+	for (int i = 0; i < types.size(); ++i) {
+		for (int j = 0; j < 3; ++j) {
+			Type current = !j ? typesByOffence.at(i) : j == 1 ? typesByDefence.at(i) : typesByTotal.at(i);
+			int value = !j ? current.GetOffensiveStat() : j == 1 ? current.GetDefensiveStat() : current.GetTotalStat();
+			outFile << TypeToString(current.GetType()) + ":" + std::to_string(value) << ",";
+		}
+		outFile << "\n";
+	}
+	outFile.close();
 }
 
 void TypeManager::OutputResults()
 {
-	std::cout << "Results" << std::endl;
-	for (auto& t : types) {
-		std::cout << "\n\n\n--" << TypeToString(t.GetType()) << "--" << std::endl;
-		std::cout << "|    Attacking    |" << std::endl;
-		std::string noEffect("No Effect: ");
-		std::string notEffective("Not Very Effective: ");
-		std::string effective("Effective: ");
-		std::string superEffective("Super Effective: ");
-		for (auto const& x : t.GetOffensives())
-		{
-			switch (x.second) {
-			case NO_EFFECT:
-				noEffect.append(TypeToString(x.first) + " | ");
-				break;
-			case NOT_VERY_EFFECTIVE:
-				notEffective.append(TypeToString(x.first) + " | ");
-				break;
-			case EFFECTIVE:
-				effective.append(TypeToString(x.first) + " | ");
-				break;
-			case SUPER_EFFECTIVE:
-				superEffective.append(TypeToString(x.first) + " | ");
-				break;
-			}
-		}
-		std::cout << noEffect << std::endl << notEffective << std::endl << effective << std::endl << superEffective;
-
-		std::cout << "\n\n|    Defending    |" << std::endl;
-		noEffect = "No Effect: ";
-		notEffective = "Not Very Effective: ";
-		effective = "Effective: ";
-		superEffective = "Super Effective: ";
-		for (auto const& x : t.GetDefensives())
-		{
-			switch (x.second) {
-			case NO_EFFECT:
-				noEffect.append(TypeToString(x.first) + " | ");
-				break;
-			case NOT_VERY_EFFECTIVE:
-				notEffective.append(TypeToString(x.first) + " | ");
-				break;
-			case EFFECTIVE:
-				effective.append(TypeToString(x.first) + " | ");
-				break;
-			case SUPER_EFFECTIVE:
-				superEffective.append(TypeToString(x.first) + " | ");
-				break;
-			}
-		}
-		std::cout << noEffect << std::endl << notEffective << std::endl << effective << std::endl << superEffective;
+	std::ofstream outFile;
+	outFile.open("breakdown.csv");
+	if (!outFile) {
+		std::cout << "Cannot Create File";
+		return;
 	}
+
+	for (auto& t : types) {
+		std::cout << "\n------------------------" << TypeToString(t.GetType()) << "------------------------" << std::endl;
+		outFile << "------------------------" << TypeToString(t.GetType()) << "------------------------" << std::endl;;
+		for (int i = 0; i < 2; ++i) {
+			std::vector<std::string> effects;
+			for (DamageResult s = (DamageResult)0; s != NUMDAMAGES; s = (DamageResult)(s + 1))
+			{
+				effects.push_back(std::string());
+			}
+
+			std::map<PokemonType, DamageResult> map = !i ? t.GetOffensives() : t.GetDefensives();
+			for (auto const& x : map)
+			{
+				std::string value = TypeToString(x.first);
+				switch (x.second) {
+				case NO_EFFECT:
+					effects.at(0).append(" , " + value);
+					break;
+				case NOT_VERY_EFFECTIVE:
+					effects.at(1).append(" , " + value);
+					break;
+				case EFFECTIVE:
+					effects.at(2).append(" , " + value);
+					break;
+				case SUPER_EFFECTIVE:
+					effects.at(3).append(" , " + value);
+					break;
+				}
+			}
+
+			if (!i) {
+				std::cout << "|      Attacking      |" << std::endl;
+				outFile << "|      Attacking      |\n";
+			}
+			else {
+				std::cout << "\n|      Defending      |\n" << std::endl;
+				outFile << "\n|      Defending      |\n";
+			}
+			std::map<DamageResult, int> damageMap = !i ? t.GetOffensiveOccurences() : t.GetResistanceOccurences();
+			for (DamageResult s = (DamageResult)0; s != NUMDAMAGES; s = (DamageResult)(s + 1))
+			{
+				if (damageMap[s]) {
+					std::string info = DamageToString(s) + "[" + std::to_string(damageMap[s]) + "]: ";
+					std::cout << info;
+					outFile << info;
+					std::cout << effects.at(s) << std::endl;
+					outFile << effects.at(s) << "\n";
+				}
+			}
+			float stat = !i ? t.GetOffensiveStat() : t.GetDefensiveStat();
+			std::cout << "Total Score: " << stat << std::endl;
+			outFile << "Total Score: " << stat << "\n";
+		}
+		outFile << "\n";
+	}
+	outFile.close();
 }
+
+void TypeManager::SortTypesByOffense(std::vector<Type>& sort)
+{
+	std::sort(sort.begin(), sort.end(), [](const Type& lhs, const Type& rhs) {
+		return lhs.GetOffensiveStat() > rhs.GetOffensiveStat();
+	});
+}
+
+void TypeManager::SortTypesByDefense(std::vector<Type>& sort)
+{
+	std::sort(sort.begin(), sort.end(), [](const Type& lhs, const Type& rhs) {
+		return lhs.GetDefensiveStat() > rhs.GetDefensiveStat();
+	});
+}
+
+void TypeManager::SortTypesByTotal(std::vector<Type>& sort)
+{
+	std::sort(sort.begin(), sort.end());
+}
+
+
+
+

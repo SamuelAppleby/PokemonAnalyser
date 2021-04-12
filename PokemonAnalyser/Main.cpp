@@ -23,8 +23,29 @@ int main() {
 
     cout << "Creating Type Manager..." << endl;
     TypeManager manager(typeSteam);
-    manager.AnalyseResults();
-    //manager.OutputResults();
-   
+    typeSteam.close();
+
+    cout << "Analysing Types..." << endl;
+    manager.AnalyseTypes();
+    cout << "Would you like to view the results (Y/N)?: ";
+    std::string input;
+    std::getline(std::cin, input);
+    input[0] = tolower(input[0]);
+    while (input.length() != 1 || (input[0] != 'y' && input[0] != 'n')) {
+        std::cout << "Please Enter Y or N: ";
+        std::getline(std::cin, input);
+        input[0] = tolower(input[0]);
+    }
+    if (input[0] == 'y') manager.Summary();
+
+    cout << "\nWould you like a breakdown of the types (Y/N)?: ";
+    std::getline(std::cin, input);
+    input[0] = tolower(input[0]);
+    while (input.length() != 1 || (input[0] != 'y' && input[0] != 'n')) {
+        std::cout << "Please Enter Y or N: ";
+        std::getline(std::cin, input);
+        input[0] = tolower(input[0]);
+    }
+    if (input[0] == 'y') manager.OutputResults();
     return 0;
 }

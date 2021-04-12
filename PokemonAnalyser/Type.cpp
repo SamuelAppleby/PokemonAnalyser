@@ -10,42 +10,40 @@ Type::Type(PokemonType t)
 		offensive[s] = NO_EFFECT;
 		resistance[s] = NO_EFFECT;
 	}
+	for (DamageResult s = (DamageResult)0; s != NUMDAMAGES; s = (DamageResult)(s + 1)) {
+		offensiveOccurence[s] = 0;
+		resistanceOccurence[s] = 0;
+	}
 	offensiveStat = 0;
 	defensiveStat = 0;
+	totalStat = 0;
 }
 
 void Type::Analyse()
 {
-	for (auto& o : offensive) {
-		offensiveOccurence[o.second]++;
-	}
-
-	for (auto const& x : offensiveOccurence)
-	{
-		switch (x.first) {
-		case NO_EFFECT: offensiveStat -= (x.second * 2); break;
-		case NOT_VERY_EFFECTIVE: offensiveStat -= x.second; break;
-		case EFFECTIVE: break;
-		case SUPER_EFFECTIVE: offensiveStat += x.second; break;
+	for (int i = 0; i < 2; ++i) {
+		std::map<PokemonType, DamageResult>& map = !i ? offensive : resistance;
+		std::map<DamageResult, int>& damageMap = !i ? offensiveOccurence : resistanceOccurence;
+		for (auto const& x : map)
+		{
+			float& currentStat = !i ? offensiveStat : defensiveStat;
+			switch (x.second) {
+			case NO_EFFECT:
+				currentStat = !i ? currentStat - 2 : currentStat + 2;
+				break;
+			case NOT_VERY_EFFECTIVE:
+				currentStat = !i ? currentStat - 1 : currentStat + 1;
+				break;
+			case EFFECTIVE:
+				break;
+			case SUPER_EFFECTIVE:
+				currentStat = !i ? currentStat + 1 : currentStat - 1;
+				break;
+			}
+			damageMap[x.second]++;
 		}
 	}
-
-	for (auto& o : resistance) {
-		resistanceOccurence[o.second]++;
-	}
-
-	for (auto const& x : resistanceOccurence)
-	{
-		switch (x.first) {
-		case NO_EFFECT: defensiveStat += (x.second * 2); break;
-		case NOT_VERY_EFFECTIVE: defensiveStat += x.second; break;
-		case EFFECTIVE: break;
-		case SUPER_EFFECTIVE: defensiveStat -= x.second; break;
-		}
-	}
-
-	std::cout << "Offense: " << offensiveStat << std::endl;
-	std::cout << "Defence: " << defensiveStat << std::endl;
+	totalStat = defensiveStat + offensiveStat;
 }
 
 

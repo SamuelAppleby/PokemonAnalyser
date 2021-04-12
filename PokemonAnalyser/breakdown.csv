@@ -1,0 +1,247 @@
+------------------------Normal------------------------
+|      Attacking      |
+NO EFFECT[1]:  , Ghost
+NOT VERY EFFECTIVE[2]:  , Rock , Steel
+EFFECTIVE[15]:  , Normal , Fire , Water , Electric , Grass , Ice , Fighting , Poison , Ground , Flying , Psychic , Bug , Dragon , Dark , Fairy
+Total Score: -4
+
+|      Defending      |
+NO EFFECT[1]:  , Ghost
+EFFECTIVE[16]:  , Normal , Fire , Water , Electric , Grass , Ice , Poison , Ground , Flying , Psychic , Bug , Rock , Dragon , Dark , Steel , Fairy
+SUPER EFFECTIVE[1]:  , Fighting
+Total Score: 1
+
+------------------------Fire------------------------
+|      Attacking      |
+NOT VERY EFFECTIVE[4]:  , Fire , Water , Rock , Dragon
+EFFECTIVE[10]:  , Normal , Electric , Fighting , Poison , Ground , Flying , Psychic , Ghost , Dark , Fairy
+SUPER EFFECTIVE[4]:  , Grass , Ice , Bug , Steel
+Total Score: 0
+
+|      Defending      |
+NOT VERY EFFECTIVE[6]:  , Fire , Grass , Ice , Bug , Steel , Fairy
+EFFECTIVE[9]:  , Normal , Electric , Fighting , Poison , Flying , Psychic , Ghost , Dragon , Dark
+SUPER EFFECTIVE[3]:  , Water , Ground , Rock
+Total Score: 3
+
+------------------------Water------------------------
+|      Attacking      |
+NOT VERY EFFECTIVE[3]:  , Water , Grass , Dragon
+EFFECTIVE[12]:  , Normal , Electric , Ice , Fighting , Poison , Flying , Psychic , Bug , Ghost , Dark , Steel , Fairy
+SUPER EFFECTIVE[3]:  , Fire , Ground , Rock
+Total Score: 0
+
+|      Defending      |
+NOT VERY EFFECTIVE[4]:  , Fire , Water , Ice , Steel
+EFFECTIVE[12]:  , Normal , Fighting , Poison , Ground , Flying , Psychic , Bug , Rock , Ghost , Dragon , Dark , Fairy
+SUPER EFFECTIVE[2]:  , Electric , Grass
+Total Score: 2
+
+------------------------Electric------------------------
+|      Attacking      |
+NO EFFECT[1]:  , Ground
+NOT VERY EFFECTIVE[3]:  , Electric , Grass , Dragon
+EFFECTIVE[12]:  , Normal , Fire , Ice , Fighting , Poison , Psychic , Bug , Rock , Ghost , Dark , Steel , Fairy
+SUPER EFFECTIVE[2]:  , Water , Flying
+Total Score: -3
+
+|      Defending      |
+NOT VERY EFFECTIVE[3]:  , Electric , Flying , Steel
+EFFECTIVE[14]:  , Normal , Fire , Water , Grass , Ice , Fighting , Poison , Psychic , Bug , Rock , Ghost , Dragon , Dark , Fairy
+SUPER EFFECTIVE[1]:  , Ground
+Total Score: 2
+
+------------------------Grass------------------------
+|      Attacking      |
+NOT VERY EFFECTIVE[7]:  , Fire , Grass , Poison , Flying , Bug , Dragon , Steel
+EFFECTIVE[8]:  , Normal , Electric , Ice , Fighting , Psychic , Ghost , Dark , Fairy
+SUPER EFFECTIVE[3]:  , Water , Ground , Rock
+Total Score: -4
+
+|      Defending      |
+NOT VERY EFFECTIVE[4]:  , Water , Electric , Grass , Ground
+EFFECTIVE[9]:  , Normal , Fighting , Psychic , Rock , Ghost , Dragon , Dark , Steel , Fairy
+SUPER EFFECTIVE[5]:  , Fire , Ice , Poison , Flying , Bug
+Total Score: -1
+
+------------------------Ice------------------------
+|      Attacking      |
+NOT VERY EFFECTIVE[4]:  , Fire , Water , Ice , Steel
+EFFECTIVE[10]:  , Normal , Electric , Fighting , Poison , Psychic , Bug , Rock , Ghost , Dark , Fairy
+SUPER EFFECTIVE[4]:  , Grass , Ground , Flying , Dragon
+Total Score: 0
+
+|      Defending      |
+NOT VERY EFFECTIVE[1]:  , Ice
+EFFECTIVE[13]:  , Normal , Water , Electric , Grass , Poison , Ground , Flying , Psychic , Bug , Ghost , Dragon , Dark , Fairy
+SUPER EFFECTIVE[4]:  , Fire , Fighting , Rock , Steel
+Total Score: -3
+
+------------------------Fighting------------------------
+|      Attacking      |
+NO EFFECT[1]:  , Ghost
+NOT VERY EFFECTIVE[5]:  , Poison , Flying , Psychic , Bug , Fairy
+EFFECTIVE[7]:  , Fire , Water , Electric , Grass , Fighting , Ground , Dragon
+SUPER EFFECTIVE[5]:  , Normal , Ice , Rock , Dark , Steel
+Total Score: -2
+
+|      Defending      |
+NOT VERY EFFECTIVE[3]:  , Bug , Rock , Dark
+EFFECTIVE[12]:  , Normal , Fire , Water , Electric , Grass , Ice , Fighting , Poison , Ground , Ghost , Dragon , Steel
+SUPER EFFECTIVE[3]:  , Flying , Psychic , Fairy
+Total Score: 0
+
+------------------------Poison------------------------
+|      Attacking      |
+NO EFFECT[1]:  , Steel
+NOT VERY EFFECTIVE[4]:  , Poison , Ground , Rock , Ghost
+EFFECTIVE[11]:  , Normal , Fire , Water , Electric , Ice , Fighting , Flying , Psychic , Bug , Dragon , Dark
+SUPER EFFECTIVE[2]:  , Grass , Fairy
+Total Score: -4
+
+|      Defending      |
+NOT VERY EFFECTIVE[5]:  , Grass , Fighting , Poison , Bug , Fairy
+EFFECTIVE[11]:  , Normal , Fire , Water , Electric , Ice , Flying , Rock , Ghost , Dragon , Dark , Steel
+SUPER EFFECTIVE[2]:  , Ground , Psychic
+Total Score: 3
+
+------------------------Ground------------------------
+|      Attacking      |
+NO EFFECT[1]:  , Flying
+NOT VERY EFFECTIVE[2]:  , Grass , Bug
+EFFECTIVE[10]:  , Normal , Water , Ice , Fighting , Ground , Psychic , Ghost , Dragon , Dark , Fairy
+SUPER EFFECTIVE[5]:  , Fire , Electric , Poison , Rock , Steel
+Total Score: 1
+
+|      Defending      |
+NO EFFECT[1]:  , Electric
+NOT VERY EFFECTIVE[2]:  , Poison , Rock
+EFFECTIVE[12]:  , Normal , Fire , Fighting , Ground , Flying , Psychic , Bug , Ghost , Dragon , Dark , Steel , Fairy
+SUPER EFFECTIVE[3]:  , Water , Grass , Ice
+Total Score: 1
+
+------------------------Flying------------------------
+|      Attacking      |
+NOT VERY EFFECTIVE[3]:  , Electric , Rock , Steel
+EFFECTIVE[12]:  , Normal , Fire , Water , Ice , Poison , Ground , Flying , Psychic , Ghost , Dragon , Dark , Fairy
+SUPER EFFECTIVE[3]:  , Grass , Fighting , Bug
+Total Score: 0
+
+|      Defending      |
+NO EFFECT[1]:  , Ground
+NOT VERY EFFECTIVE[3]:  , Grass , Fighting , Bug
+EFFECTIVE[11]:  , Normal , Fire , Water , Poison , Flying , Psychic , Ghost , Dragon , Dark , Steel , Fairy
+SUPER EFFECTIVE[3]:  , Electric , Ice , Rock
+Total Score: 2
+
+------------------------Psychic------------------------
+|      Attacking      |
+NO EFFECT[1]:  , Dark
+NOT VERY EFFECTIVE[2]:  , Psychic , Steel
+EFFECTIVE[13]:  , Normal , Fire , Water , Electric , Grass , Ice , Ground , Flying , Bug , Rock , Ghost , Dragon , Fairy
+SUPER EFFECTIVE[2]:  , Fighting , Poison
+Total Score: -2
+
+|      Defending      |
+NOT VERY EFFECTIVE[2]:  , Fighting , Psychic
+EFFECTIVE[13]:  , Normal , Fire , Water , Electric , Grass , Ice , Poison , Ground , Flying , Rock , Dragon , Steel , Fairy
+SUPER EFFECTIVE[3]:  , Bug , Ghost , Dark
+Total Score: -1
+
+------------------------Bug------------------------
+|      Attacking      |
+NOT VERY EFFECTIVE[7]:  , Fire , Fighting , Poison , Flying , Ghost , Steel , Fairy
+EFFECTIVE[7]:  , Normal , Water , Electric , Ice , Ground , Bug , Dragon
+SUPER EFFECTIVE[4]:  , Grass , Psychic , Rock , Dark
+Total Score: -3
+
+|      Defending      |
+NOT VERY EFFECTIVE[3]:  , Grass , Fighting , Ground
+EFFECTIVE[12]:  , Normal , Water , Electric , Ice , Poison , Psychic , Bug , Ghost , Dragon , Dark , Steel , Fairy
+SUPER EFFECTIVE[3]:  , Fire , Flying , Rock
+Total Score: 0
+
+------------------------Rock------------------------
+|      Attacking      |
+NOT VERY EFFECTIVE[3]:  , Fighting , Ground , Steel
+EFFECTIVE[11]:  , Normal , Water , Electric , Grass , Poison , Psychic , Rock , Ghost , Dragon , Dark , Fairy
+SUPER EFFECTIVE[4]:  , Fire , Ice , Flying , Bug
+Total Score: 1
+
+|      Defending      |
+NOT VERY EFFECTIVE[4]:  , Normal , Fire , Poison , Flying
+EFFECTIVE[8]:  , Electric , Ice , Psychic , Rock , Ghost , Dragon , Dark , Fairy
+SUPER EFFECTIVE[6]:  , Water , Grass , Fighting , Ground , Bug , Steel
+Total Score: -2
+
+------------------------Ghost------------------------
+|      Attacking      |
+NO EFFECT[1]:  , Normal
+NOT VERY EFFECTIVE[1]:  , Dark
+EFFECTIVE[14]:  , Fire , Water , Electric , Grass , Ice , Fighting , Poison , Ground , Flying , Bug , Rock , Dragon , Steel , Fairy
+SUPER EFFECTIVE[2]:  , Psychic , Ghost
+Total Score: -1
+
+|      Defending      |
+NO EFFECT[2]:  , Normal , Fighting
+NOT VERY EFFECTIVE[2]:  , Poison , Bug
+EFFECTIVE[12]:  , Fire , Water , Electric , Grass , Ice , Ground , Flying , Psychic , Rock , Dragon , Steel , Fairy
+SUPER EFFECTIVE[2]:  , Ghost , Dark
+Total Score: 4
+
+------------------------Dragon------------------------
+|      Attacking      |
+NO EFFECT[1]:  , Fairy
+NOT VERY EFFECTIVE[1]:  , Steel
+EFFECTIVE[15]:  , Normal , Fire , Water , Electric , Grass , Ice , Fighting , Poison , Ground , Flying , Psychic , Bug , Rock , Ghost , Dark
+SUPER EFFECTIVE[1]:  , Dragon
+Total Score: -2
+
+|      Defending      |
+NOT VERY EFFECTIVE[4]:  , Fire , Water , Electric , Grass
+EFFECTIVE[11]:  , Normal , Fighting , Poison , Ground , Flying , Psychic , Bug , Rock , Ghost , Dark , Steel
+SUPER EFFECTIVE[3]:  , Ice , Dragon , Fairy
+Total Score: 1
+
+------------------------Dark------------------------
+|      Attacking      |
+NOT VERY EFFECTIVE[3]:  , Fighting , Dark , Fairy
+EFFECTIVE[13]:  , Normal , Fire , Water , Electric , Grass , Ice , Poison , Ground , Flying , Bug , Rock , Dragon , Steel
+SUPER EFFECTIVE[2]:  , Psychic , Ghost
+Total Score: -1
+
+|      Defending      |
+NO EFFECT[1]:  , Psychic
+NOT VERY EFFECTIVE[2]:  , Ghost , Dark
+EFFECTIVE[12]:  , Normal , Fire , Water , Electric , Grass , Ice , Poison , Ground , Flying , Rock , Dragon , Steel
+SUPER EFFECTIVE[3]:  , Fighting , Bug , Fairy
+Total Score: 1
+
+------------------------Steel------------------------
+|      Attacking      |
+NOT VERY EFFECTIVE[4]:  , Fire , Water , Electric , Steel
+EFFECTIVE[11]:  , Normal , Grass , Fighting , Poison , Ground , Flying , Psychic , Bug , Ghost , Dragon , Dark
+SUPER EFFECTIVE[3]:  , Ice , Rock , Fairy
+Total Score: -1
+
+|      Defending      |
+NO EFFECT[1]:  , Poison
+NOT VERY EFFECTIVE[10]:  , Normal , Grass , Ice , Flying , Psychic , Bug , Rock , Dragon , Steel , Fairy
+EFFECTIVE[4]:  , Water , Electric , Ghost , Dark
+SUPER EFFECTIVE[3]:  , Fire , Fighting , Ground
+Total Score: 9
+
+------------------------Fairy------------------------
+|      Attacking      |
+NOT VERY EFFECTIVE[3]:  , Fire , Poison , Steel
+EFFECTIVE[12]:  , Normal , Water , Electric , Grass , Ice , Ground , Flying , Psychic , Bug , Rock , Ghost , Fairy
+SUPER EFFECTIVE[3]:  , Fighting , Dragon , Dark
+Total Score: 0
+
+|      Defending      |
+NO EFFECT[1]:  , Dragon
+NOT VERY EFFECTIVE[3]:  , Fighting , Bug , Dark
+EFFECTIVE[12]:  , Normal , Fire , Water , Electric , Grass , Ice , Ground , Flying , Psychic , Rock , Ghost , Fairy
+SUPER EFFECTIVE[2]:  , Poison , Steel
+Total Score: 3
+
