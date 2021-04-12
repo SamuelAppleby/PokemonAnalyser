@@ -150,7 +150,8 @@ void TypeManager::Summary()
 	for (int i = 0; i < 3; ++i) {
 		std::string title = !i ? "SORTED BY OFFENSIVE STAT" : i == 1 ? "SORTED BY DEFENSIVE STAT" : "SORTED BY TOTAL STAT";
 		std::cout << std::setw(25) << title << "\t";
-		if(i !=2 ) outFile << title << ",";
+		if (i != 2) outFile << title << ",";
+		else  outFile << title << "\n";
 	}
 	std::cout << std::endl;
 	outFile << "\n";
