@@ -178,7 +178,7 @@ void TypeManager::OutputResults()
 
 	for (auto& t : types) {
 		std::cout << "\n------------------------" << TypeToString(t.GetType()) << "------------------------" << std::endl;
-		outFile << "------------------------" << TypeToString(t.GetType()) << "------------------------" << std::endl;;
+		outFile << "------------------------" << TypeToString(t.GetType()) << "------------------------" << "\n";
 		for (int i = 0; i < 2; ++i) {
 			std::vector<std::string> effects;
 			for (DamageResult s = (DamageResult)0; s != NUMDAMAGES; s = (DamageResult)(s + 1))
