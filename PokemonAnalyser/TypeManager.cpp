@@ -154,7 +154,6 @@ void TypeManager::Summary()
 		else  outFile << title << "\n";
 	}
 	std::cout << std::endl;
-	outFile << "\n";
 	for (int i = 0; i < types.size(); ++i) {
 		for (int j = 0; j < 3; ++j) {
 			Type current = !j ? typesByOffence.at(i) : j == 1 ? typesByDefence.at(i) : typesByTotal.at(i);
