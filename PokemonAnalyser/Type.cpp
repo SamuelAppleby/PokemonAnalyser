@@ -1,7 +1,7 @@
+/*		 Created By Samuel Buzz Appleby
+ *               12/04/2021
+ *			  TypeImplementation			    */
 #include "Type.h"
-#include <algorithm>
-#include <cctype>
-#include <iostream>
 
 Type::Type(PokemonType t)
 {

@@ -1,7 +1,9 @@
+/*		 Created By Samuel Buzz Appleby
+ *               12/04/2021
+ *		  TypeManagerImplementation			    */
 #include "TypeManager.h"
-#include <string>
 #include <iomanip>
-#include <fstream>
+
 TypeManager::TypeManager(std::ifstream& stream) 
 {
 	std::string line;
@@ -139,21 +141,6 @@ void TypeManager::AnalyseTypes()
 
 void TypeManager::Summary()
 {
-	for (int i = 0; i < 3; ++i) {
-		std::string title = !i ? "SORTED BY OFFENSIVE STAT" : i == 1 ? "SORTED BY DEFENSIVE STAT" : "SORTED BY TOTAL STAT";
-		title.insert(title.begin(), 24 - title.length(), ' ');
-
-		std::cout << std::endl <<  title << std::endl;
-		std::vector<Type> sorted = !i ? typesByOffence : i == 1 ? typesByDefence : typesByTotal;
-
-		for (auto& t : sorted) {
-			int value = !i ? (int)t.GetOffensiveStat() : i == 1 ? (int)t.GetDefensiveStat() :(int)t.GetTotalStat();
-			std::string info = TypeToString(t.GetType()) + ":" + std::to_string(value);
-			info.insert(info.begin(), title.length() - info.length(), ' ');
-			std::cout << info << std::endl;
-		}
-	}
-
 	std::ofstream outFile;
 	outFile.open("summary.csv");
 	if (!outFile) {
@@ -162,15 +149,19 @@ void TypeManager::Summary()
 	}
 	for (int i = 0; i < 3; ++i) {
 		std::string title = !i ? "SORTED BY OFFENSIVE STAT" : i == 1 ? "SORTED BY DEFENSIVE STAT" : "SORTED BY TOTAL STAT";
+		std::cout << std::setw(25) << title << "\t";
 		outFile << title << ",";
 	}
+	std::cout << std::endl;
 	outFile << "\n";
 	for (int i = 0; i < types.size(); ++i) {
 		for (int j = 0; j < 3; ++j) {
 			Type current = !j ? typesByOffence.at(i) : j == 1 ? typesByDefence.at(i) : typesByTotal.at(i);
 			int value = !j ? current.GetOffensiveStat() : j == 1 ? current.GetDefensiveStat() : current.GetTotalStat();
+			std::cout << std::setw(25) << TypeToString(current.GetType()) + ":" + std::to_string(value) << "\t";
 			outFile << TypeToString(current.GetType()) + ":" + std::to_string(value) << ",";
 		}
+		std::cout << std::endl;
 		outFile << "\n";
 	}
 	outFile.close();
@@ -220,7 +211,7 @@ void TypeManager::OutputResults()
 				outFile << "|      Attacking      |\n";
 			}
 			else {
-				std::cout << "\n|      Defending      |\n" << std::endl;
+				std::cout << "\n|      Defending      |" << std::endl;
 				outFile << "\n|      Defending      |\n";
 			}
 			std::map<DamageResult, int> damageMap = !i ? t.GetOffensiveOccurences() : t.GetResistanceOccurences();
@@ -228,14 +219,15 @@ void TypeManager::OutputResults()
 			{
 				if (damageMap[s]) {
 					std::string info = DamageToString(s) + "[" + std::to_string(damageMap[s]) + "]: ";
-					std::cout << info;
+					std::cout << std::setw(24) << info;
 					outFile << info;
-					std::cout << effects.at(s) << std::endl;
+					
+					std::cout << effects.at(s).substr(3, effects.at(s).size() - 1) << std::endl;
 					outFile << effects.at(s) << "\n";
 				}
 			}
-			float stat = !i ? t.GetOffensiveStat() : t.GetDefensiveStat();
-			std::cout << "Total Score: " << stat << std::endl;
+			int stat = !i ? t.GetOffensiveStat() : t.GetDefensiveStat();
+			std::cout << std::setw(24) << "Total Score: " << stat << std::endl;
 			outFile << "Total Score: " << stat << "\n";
 		}
 		outFile << "\n";

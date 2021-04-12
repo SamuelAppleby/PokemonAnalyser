@@ -1,9 +1,12 @@
+/*		 Created By Samuel Buzz Appleby
+ *               12/04/2021
+ *			TypeManagerDefinition			    */
 #pragma once
 #include <fstream>
 #include <iostream>  
 #include <algorithm>
-#include <set>
 #include <vector>
+#include <string>
 #include "Type.h"
 
 class TypeManager

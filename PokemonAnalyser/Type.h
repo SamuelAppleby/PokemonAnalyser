@@ -1,7 +1,9 @@
+/*		 Created By Samuel Buzz Appleby
+ *               12/04/2021
+ *			    TypeDefinition			    */
 #pragma once
 #include <vector>
 #include <map>
-#include <string>
 
 enum DamageResult { NO_EFFECT, NOT_VERY_EFFECTIVE, EFFECTIVE, SUPER_EFFECTIVE, NUMDAMAGES };
 enum PokemonType { NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL, FAIRY, NUMTYPES };
