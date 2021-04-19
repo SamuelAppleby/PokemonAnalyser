@@ -7,13 +7,14 @@
 #include <algorithm>
 #include <vector>
 #include <string>
+#include "BaseType.h"
 #include "Type.h"
 
 class TypeManager
 {
 public:
 	TypeManager(std::ifstream& stream);
-	Type* FindTypeInList(PokemonType type);
+	BaseType* FindTypeInList(PokemonType type);
 	PokemonType ConvertTypeName(std::string name);
 	DamageResult ConvertDamageName(std::string damage);
 	std::string TypeToString(PokemonType type);
@@ -21,14 +22,17 @@ public:
 	void AnalyseTypes();
 	void Summary();
 	void OutputResults();
-	void SortTypesByOffense(std::vector<Type>& sort);
-	void SortTypesByDefense(std::vector<Type>& sort);
-	void SortTypesByTotal(std::vector<Type>& sort);
+	void CreateDualTypes();
+	void SortTypesByOffense(std::vector<BaseType>& sort);
+	void SortTypesByDefense(std::vector<BaseType>& sort);
+	void SortTypesByTotal(std::vector<BaseType>& sort);
 
 private:
-	std::vector<Type> types;
-	std::vector<Type> typesByOffence;
-	std::vector<Type> typesByDefence;
-	std::vector<Type> typesByTotal;
+	std::vector<BaseType> types;
+	std::vector<BaseType> typesByOffence;
+	std::vector<BaseType> typesByDefence;
+	std::vector<BaseType> typesByTotal;
+
+	std::vector<Type> dualTypes;
 };
 

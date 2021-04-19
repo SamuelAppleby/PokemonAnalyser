@@ -16,7 +16,7 @@ TypeManager::TypeManager(std::ifstream& stream)
 			std::string token;
 			while ((position = line.find(delimiter)) != std::string::npos) {
 				token = line.substr(0, position);
-				Type t(ConvertTypeName(token));
+				BaseType t(ConvertTypeName(token));
 				types.push_back(t);
 				line.erase(0, position + delimiter.length());
 			}
@@ -25,16 +25,16 @@ TypeManager::TypeManager(std::ifstream& stream)
 			int tokenNo = 0;
 			size_t position = 0;
 			std::string token;
-			Type* currentType = nullptr;
+			BaseType* currentType = nullptr;
 			while ((position = line.find(delimiter)) != std::string::npos) {
 				token = line.substr(0, position);
 				if (!tokenNo) currentType = FindTypeInList(ConvertTypeName(token));
 				else {
 					PokemonType other = PokemonType(tokenNo - 1);
-					Type* otherType = FindTypeInList(other);
+					BaseType* otherType = FindTypeInList(other);
 					DamageResult dmg = ConvertDamageName(token);
-					currentType->GetOffensives()[other] = dmg;
-					otherType->GetDefensives()[currentType->GetType()] = dmg;
+					currentType->offensive[other] = dmg;
+					otherType->resistance[currentType->GetType()] = dmg;
 				}
 				line.erase(0, position + delimiter.length());
 				tokenNo++;
@@ -44,7 +44,7 @@ TypeManager::TypeManager(std::ifstream& stream)
 	}
 }
 
-Type* TypeManager::FindTypeInList(PokemonType type)
+BaseType* TypeManager::FindTypeInList(PokemonType type)
 {
 	for (auto& t : types) {
 		if (type == t.GetType()) return &t;
@@ -156,7 +156,7 @@ void TypeManager::Summary()
 	std::cout << std::endl;
 	for (int i = 0; i < types.size(); ++i) {
 		for (int j = 0; j < 3; ++j) {
-			Type current = !j ? typesByOffence.at(i) : j == 1 ? typesByDefence.at(i) : typesByTotal.at(i);
+			BaseType current = !j ? typesByOffence.at(i) : j == 1 ? typesByDefence.at(i) : typesByTotal.at(i);
 			int value = !j ? current.GetOffensiveStat() : j == 1 ? current.GetDefensiveStat() : current.GetTotalStat();
 			std::cout << std::setw(25) << TypeToString(current.GetType()) + ":" + std::to_string(value) << "\t";
 			if(j != 2) outFile << TypeToString(current.GetType()) + ":" + std::to_string(value) << ",";
@@ -186,7 +186,7 @@ void TypeManager::OutputResults()
 				effects.push_back(std::string());
 			}
 
-			std::map<PokemonType, DamageResult> map = !i ? t.GetOffensives() : t.GetDefensives();
+			std::map<PokemonType, DamageResult> map = !i ? t.offensive : t.resistance;
 			for (auto const& x : map)
 			{
 				std::string value = TypeToString(x.first);
@@ -235,21 +235,35 @@ void TypeManager::OutputResults()
 	outFile.close();
 }
 
-void TypeManager::SortTypesByOffense(std::vector<Type>& sort)
+void TypeManager::CreateDualTypes()
 {
-	std::sort(sort.begin(), sort.end(), [](const Type& lhs, const Type& rhs) {
+	for (int i = 0; i < types.size(); i++) {
+		for (int j = i; j < types.size(); j++) {
+			Type t(std::pair<BaseType, BaseType> (types.at(i), types.at(j)));
+			std::cout << TypeToString(t.GetType().first.GetType()) << " / " << TypeToString(t.GetType().second.GetType()) << std::endl;
+			for (auto& x : t.resistance) {
+				std::cout << TypeToString(x.first) << ": " << x.second << std::endl;
+			}
+			dualTypes.push_back(t);
+		}
+	}
+}
+
+void TypeManager::SortTypesByOffense(std::vector<BaseType>& sort)
+{
+	std::sort(sort.begin(), sort.end(), [](const BaseType& lhs, const BaseType& rhs) {
 		return lhs.GetOffensiveStat() > rhs.GetOffensiveStat();
 	});
 }
 
-void TypeManager::SortTypesByDefense(std::vector<Type>& sort)
+void TypeManager::SortTypesByDefense(std::vector<BaseType>& sort)
 {
-	std::sort(sort.begin(), sort.end(), [](const Type& lhs, const Type& rhs) {
+	std::sort(sort.begin(), sort.end(), [](const BaseType& lhs, const BaseType& rhs) {
 		return lhs.GetDefensiveStat() > rhs.GetDefensiveStat();
 	});
 }
 
-void TypeManager::SortTypesByTotal(std::vector<Type>& sort)
+void TypeManager::SortTypesByTotal(std::vector<BaseType>& sort)
 {
 	std::sort(sort.begin(), sort.end());
 }

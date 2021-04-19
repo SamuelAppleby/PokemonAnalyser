@@ -1,49 +1,60 @@
-/*		 Created By Samuel Buzz Appleby
- *               12/04/2021
- *			  TypeImplementation			    */
 #include "Type.h"
 
-Type::Type(PokemonType t)
+Type::Type(std::pair<BaseType, BaseType> t)
 {
 	type = t;
-	for (PokemonType s = (PokemonType)0; s != NUMTYPES; s = (PokemonType)(s + 1)) {
-		offensive[s] = NO_EFFECT;
-		resistance[s] = NO_EFFECT;
-	}
-	for (DamageResult s = (DamageResult)0; s != NUMDAMAGES; s = (DamageResult)(s + 1)) {
-		offensiveOccurence[s] = 0;
-		resistanceOccurence[s] = 0;
-	}
 	offensiveStat = 0;
 	defensiveStat = 0;
 	totalStat = 0;
-}
 
-void Type::Analyse()
-{
-	for (int i = 0; i < 2; ++i) {
-		std::map<PokemonType, DamageResult>& map = !i ? offensive : resistance;
-		std::map<DamageResult, int>& damageMap = !i ? offensiveOccurence : resistanceOccurence;
-		for (auto const& x : map)
-		{
-			float& currentStat = !i ? offensiveStat : defensiveStat;
-			switch (x.second) {
-			case NO_EFFECT:
-				currentStat = !i ? currentStat - 2 : currentStat + 2;
-				break;
+	for (PokemonType s = (PokemonType)0; s != NUMTYPES; s = (PokemonType)(s + 1)) {
+		DamageResult resist1 = type.first.resistance.find(s)->second;
+		DamageResult resist2 = type.second.resistance.find(s)->second;
+		if (resist1 == NO_EFFECT || resist2 == NO_EFFECT) {
+			resistance[s] = 0;
+			continue;
+		}
+		std::pair<DamageResult, DamageResult> resistPair(resist1, resist2);
+		switch (resistPair.first) {
+		case NOT_VERY_EFFECTIVE:
+			switch (resistPair.second) {
 			case NOT_VERY_EFFECTIVE:
-				currentStat = !i ? currentStat - 1 : currentStat + 1;
+				resistance[s] = 0.25;
 				break;
 			case EFFECTIVE:
+				resistance[s] = 0.5;
 				break;
 			case SUPER_EFFECTIVE:
-				currentStat = !i ? currentStat + 1 : currentStat - 1;
+				resistance[s] = 1;
 				break;
 			}
-			damageMap[x.second]++;
+			break;
+		case EFFECTIVE:
+			switch (resistPair.second) {
+			case NOT_VERY_EFFECTIVE:
+				resistance[s] = 0.5;
+				break;
+			case EFFECTIVE:
+				resistance[s] = 1;
+				break;
+			case SUPER_EFFECTIVE:
+				resistance[s] = 2;
+				break;
+			}
+			break;
+		case SUPER_EFFECTIVE:
+			switch (resistPair.second) {
+			case NOT_VERY_EFFECTIVE:
+				resistance[s] = 1;
+				break;
+			case EFFECTIVE:
+				resistance[s] = 2;
+				break;
+			case SUPER_EFFECTIVE:
+				resistance[s] = 4;
+				break;
+			}
+			break;
 		}
 	}
-	totalStat = defensiveStat + offensiveStat;
 }
-
-

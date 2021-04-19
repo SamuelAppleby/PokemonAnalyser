@@ -47,5 +47,15 @@ int main() {
         input[0] = tolower(input[0]);
     }
     if (input[0] == 'y') manager.OutputResults();
+
+    cout << "\nWould you to create dual types (Y/N)?: ";
+    std::getline(std::cin, input);
+    input[0] = tolower(input[0]);
+    while (input.length() != 1 || (input[0] != 'y' && input[0] != 'n')) {
+        std::cout << "Please Enter Y or N: ";
+        std::getline(std::cin, input);
+        input[0] = tolower(input[0]);
+    }
+    if (input[0] == 'y') manager.CreateDualTypes();
     return 0;
 }

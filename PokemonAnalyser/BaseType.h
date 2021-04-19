@@ -1,16 +1,20 @@
+/*		 Created By Samuel Buzz Appleby
+ *               12/04/2021
+ *			    TypeDefinition			    */
 #pragma once
-#include "BaseType.h"
-#include <utility>
-#include <iostream>  
+#include <vector>
+#include <map>
 
+enum DamageResult { NO_EFFECT, NOT_VERY_EFFECTIVE, EFFECTIVE, SUPER_EFFECTIVE, NUMDAMAGES };
+enum PokemonType { NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL, FAIRY, NUMTYPES };
 
-class Type
+class BaseType
 {
 public:
-	Type() {}
-	Type(std::pair<BaseType, BaseType> t);
+	BaseType(){}
+	BaseType(PokemonType t);
 	void Analyse();
-	std::pair<BaseType, BaseType> GetType() const {
+	PokemonType GetType() const {
 		return type;
 	}
 
@@ -34,14 +38,14 @@ public:
 		return totalStat;
 	}
 
-	bool operator< (const Type& other) const {
+	bool operator< (const BaseType& other) const {
 		return totalStat > other.totalStat;
 	}
-	std::map<PokemonType, float> offensive;
-	std::map<PokemonType, float> resistance;
+	std::map<PokemonType, DamageResult> offensive;
+	std::map<PokemonType, DamageResult> resistance;
 
 private:
-	std::pair<BaseType, BaseType> type;
+	PokemonType type;
 
 	std::map<DamageResult, int> offensiveOccurence;
 	float offensiveStat;
