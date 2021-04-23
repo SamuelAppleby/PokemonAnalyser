@@ -15,19 +15,7 @@ ifstream LoadFile(string fileName) {
     return infile;
 }
 
-int main() {
-    cout << "Loading Files..." << endl;
-    ifstream typeSteam = LoadFile("typechart.txt");
-    if (!typeSteam)
-        return -1;
-
-    cout << "Creating Type Manager..." << endl;
-    TypeManager manager(typeSteam);
-    typeSteam.close();
-
-    cout << "Analysing Types..." << endl;
-    manager.AnalyseTypes();
-    cout << "Would you like to view the results (Y/N)?: ";
+std::string UserInput() {
     std::string input;
     std::getline(std::cin, input);
     input[0] = tolower(input[0]);
@@ -36,26 +24,44 @@ int main() {
         std::getline(std::cin, input);
         input[0] = tolower(input[0]);
     }
-    if (input[0] == 'y') manager.Summary();
+    return input;
+}
+
+int main() {
+    cout << "Loading Files..." << endl;
+    ifstream typeSteam = LoadFile("typechart.txt");
+    if (!typeSteam)
+        return -1;
+
+    cout << "Creating Types..." << endl;
+    TypeManager manager(typeSteam);
+    typeSteam.close();
+
+    cout << "Would you like to analyse single Pokemon Types (Y/N)?: ";
+    
+    if (UserInput()[0] == 'y') {
+        cout << "Analysing Types..." << endl;
+        manager.AnalyseTypes();
+    }
+    else return 0;
+
+    cout << "Would you like to view the results (Y/N)?: ";
+    if (UserInput()[0] == 'y') manager.Summary(false);
 
     cout << "\nWould you like a breakdown of the types (Y/N)?: ";
-    std::getline(std::cin, input);
-    input[0] = tolower(input[0]);
-    while (input.length() != 1 || (input[0] != 'y' && input[0] != 'n')) {
-        std::cout << "Please Enter Y or N: ";
-        std::getline(std::cin, input);
-        input[0] = tolower(input[0]);
-    }
-    if (input[0] == 'y') manager.OutputResults();
+    if (UserInput()[0] == 'y') manager.OutputResults(false);
 
-    cout << "\nWould you to create dual types (Y/N)?: ";
-    std::getline(std::cin, input);
-    input[0] = tolower(input[0]);
-    while (input.length() != 1 || (input[0] != 'y' && input[0] != 'n')) {
-        std::cout << "Please Enter Y or N: ";
-        std::getline(std::cin, input);
-        input[0] = tolower(input[0]);
+    cout << "Would you to analyse dual Pokemon types (Y/N)?: ";
+    if (UserInput()[0] == 'y') {
+        std::cout << "Analysing Dual Types..." << std::endl;
+        manager.AnalyseDualTypes();
     }
-    if (input[0] == 'y') manager.CreateDualTypes();
+    else return 0;
+
+    cout << "Would you like to view the results (Y/N)?: ";
+    if (UserInput()[0] == 'y') manager.Summary(true);
+
+    cout << "\nWould you like a breakdown of the types (Y/N)?: ";
+    if (UserInput()[0] == 'y') manager.OutputResults(true);
     return 0;
 }

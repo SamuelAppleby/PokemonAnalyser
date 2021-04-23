@@ -16,7 +16,7 @@ TypeManager::TypeManager(std::ifstream& stream)
 			std::string token;
 			while ((position = line.find(delimiter)) != std::string::npos) {
 				token = line.substr(0, position);
-				BaseType t(ConvertTypeName(token));
+				MonoType t(ConvertTypeName(token));
 				types.push_back(t);
 				line.erase(0, position + delimiter.length());
 			}
@@ -25,13 +25,13 @@ TypeManager::TypeManager(std::ifstream& stream)
 			int tokenNo = 0;
 			size_t position = 0;
 			std::string token;
-			BaseType* currentType = nullptr;
+			MonoType* currentType = nullptr;
 			while ((position = line.find(delimiter)) != std::string::npos) {
 				token = line.substr(0, position);
 				if (!tokenNo) currentType = FindTypeInList(ConvertTypeName(token));
 				else {
 					PokemonType other = PokemonType(tokenNo - 1);
-					BaseType* otherType = FindTypeInList(other);
+					MonoType* otherType = FindTypeInList(other);
 					DamageResult dmg = ConvertDamageName(token);
 					currentType->offensive[other] = dmg;
 					otherType->resistance[currentType->GetType()] = dmg;
@@ -42,9 +42,15 @@ TypeManager::TypeManager(std::ifstream& stream)
 		}
 		++lineNo;
 	}
+	for (int i = 0; i < types.size(); i++) {
+		for (int j = i; j < types.size(); j++) {
+			Type t(std::pair<MonoType, MonoType>(types.at(i), types.at(j)));
+			dualTypes.push_back(t);
+		}
+	}
 }
 
-BaseType* TypeManager::FindTypeInList(PokemonType type)
+MonoType* TypeManager::FindTypeInList(PokemonType type)
 {
 	for (auto& t : types) {
 		if (type == t.GetType()) return &t;
@@ -81,10 +87,10 @@ DamageResult TypeManager::ConvertDamageName(std::string damage)
 {
 	std::transform(damage.begin(), damage.end(), damage.begin(),
 		[](unsigned char c) { return std::tolower(c); });
-	if (damage == "0") return DamageResult::NO_EFFECT;
-	if (damage == "0.5") return DamageResult::NOT_VERY_EFFECTIVE;
-	if (damage == "1") return DamageResult::EFFECTIVE;
-	if (damage == "2") return DamageResult::SUPER_EFFECTIVE;
+	if (damage == "0") return DamageResult::ZERO;
+	if (damage == "0.5") return DamageResult::HALF;
+	if (damage == "1") return DamageResult::ONE;
+	if (damage == "2") return DamageResult::DOUBLE;
 	return DamageResult();
 }
 
@@ -110,16 +116,47 @@ std::string TypeManager::TypeToString(PokemonType type)
 	case STEEL: return "Steel"; break;
 	case FAIRY: return "Fairy"; break;
 	}
-	return std::string();
+}
+
+std::string TypeManager::TypeToString(std::pair<MonoType, MonoType> types)
+{
+	std::string str;
+	for (int i = 0; i < 2; ++i) {
+		PokemonType type = i ? types.first.GetType() : types.second.GetType();
+		switch (type) {
+		case NORMAL: str.append("Normal"); break;
+		case FIRE: str.append("Fire"); break;
+		case WATER: str.append("Water"); break;
+		case ELECTRIC: str.append("Electric"); break;
+		case GRASS: str.append("Grass"); break;
+		case ICE: str.append("Ice"); break;
+		case FIGHTING: str.append("Fighting"); break;
+		case POISON: str.append("Poison"); break;
+		case GROUND: str.append("Ground"); break;
+		case PSYCHIC: str.append("Psychic"); break;
+		case FLYING: str.append("Flying"); break;
+		case BUG: str.append("Bug"); break;
+		case ROCK: str.append("Rock"); break;
+		case GHOST: str.append("Ghost"); break;
+		case DRAGON: str.append("Dragon"); break;
+		case DARK: str.append("Dark"); break;
+		case STEEL: str.append("Steel"); break;
+		case FAIRY: str.append("Fairy"); break;
+		}
+		if (!i) 	str.append("/");
+	}
+	return str;
 }
 
 std::string TypeManager::DamageToString(DamageResult type)
 {
 	switch (type) {
-	case NO_EFFECT: return "NO EFFECT"; break;
-	case NOT_VERY_EFFECTIVE: return "NOT VERY EFFECTIVE"; break;
-	case EFFECTIVE: return "EFFECTIVE"; break;
-	case SUPER_EFFECTIVE: return "SUPER EFFECTIVE"; break;
+	case ZERO: return "0x"; break;
+	case QUARTER: return "0.25x"; break;
+	case HALF: return "0.5x"; break;
+	case ONE: return "1x"; break;
+	case DOUBLE: return "2x"; break;
+	case QUADRUPLE: return "4x"; break;
 	}
 	return std::string();
 }
@@ -129,145 +166,326 @@ void TypeManager::AnalyseTypes()
 	for (auto& t : types) {
 		t.Analyse();
 	}
-	typesByOffence = types;
-	SortTypesByOffense(typesByOffence);
+	baseTypesByOffence = types;
+	SortTypesByOffense(baseTypesByOffence);
 
-	typesByDefence = types;
-	SortTypesByDefense(typesByDefence);
+	baseTypesByDefence = types;
+	SortTypesByDefense(baseTypesByDefence);
 
-	typesByTotal = types;
-	SortTypesByTotal(typesByTotal);
+	baseTypesByTotal = types;
+	SortTypesByTotal(baseTypesByTotal);
 }
 
-void TypeManager::Summary()
+void TypeManager::Summary(bool dualType)
 {
 	std::ofstream outFile;
-	outFile.open("summary.csv");
+	if(dualType) outFile.open("dual_type_summary.csv");
+	else outFile.open("single_type_summary.csv");
 	if (!outFile) {
 		std::cout << "Cannot Create File";
 		return;
 	}
+	int whiteSpace = dualType ? 40 : 25;
 	for (int i = 0; i < 3; ++i) {
-		std::string title = !i ? "SORTED BY OFFENSIVE STAT" : i == 1 ? "SORTED BY DEFENSIVE STAT" : "SORTED BY TOTAL STAT";
-		std::cout << std::setw(25) << title << "\t";
+		std::string title = !i ? "AVERAGE DAMAGE DEALT" : i == 1 ? "AVERAGE DAMAGE TAKEN" : "OVERALL SCORE";
+		std::cout << std::setw(whiteSpace) << title << "\t";
 		if (i != 2) outFile << title << ",";
 		else  outFile << title << "\n";
 	}
 	std::cout << std::endl;
-	for (int i = 0; i < types.size(); ++i) {
+	int numObjs = dualType ? dualTypes.size() : types.size();
+	for (int i = 0; i < numObjs; ++i) {
 		for (int j = 0; j < 3; ++j) {
-			BaseType current = !j ? typesByOffence.at(i) : j == 1 ? typesByDefence.at(i) : typesByTotal.at(i);
-			int value = !j ? current.GetOffensiveStat() : j == 1 ? current.GetDefensiveStat() : current.GetTotalStat();
-			std::cout << std::setw(25) << TypeToString(current.GetType()) + ":" + std::to_string(value) << "\t";
-			if(j != 2) outFile << TypeToString(current.GetType()) + ":" + std::to_string(value) << ",";
-			else outFile << TypeToString(current.GetType()) + ":" + std::to_string(value) << "\n";
+			if (dualType) {
+				Type current = !j ? dualTypesByOffence.at(i) : j == 1 ? dualTypesByDefence.at(i) : dualTypesByTotal.at(i);
+				float value = !j ? current.GetOffensiveStat() : j == 1 ? current.GetDefensiveStat() : current.GetTotalStat();
+				std::cout << std::setw(whiteSpace) << std::string(TypeToString(current.GetType()) + ":" + std::to_string(value)) << "\t";
+				if (j != 2) outFile << current << ":" + std::to_string(value) << ",";
+				else outFile << current << ":" + std::to_string(value) << "\n";
+			}
+			else {
+				MonoType current = !j ? baseTypesByOffence.at(i) : j == 1 ? baseTypesByDefence.at(i) : baseTypesByTotal.at(i);
+				float value = !j ? current.GetOffensiveStat() : j == 1 ? current.GetDefensiveStat() : current.GetTotalStat();
+				std::cout << std::setw(whiteSpace) << std::string(TypeToString(current.GetType()) + ":" + std::to_string(value)) << "\t";
+				if (j != 2) outFile << current << ":" + std::to_string(value) << ",";
+				else outFile << current << ":" + std::to_string(value) << "\n";
+			}
 		}
 		std::cout << std::endl;
 	}
 	outFile.close();
 }
 
-void TypeManager::OutputResults()
+void TypeManager::OutputResults(bool dualType)
 {
+	int whiteSpace = 30;
 	std::ofstream outFile;
-	outFile.open("breakdown.csv");
+	if(dualType) outFile.open("dual_type_breakdown.csv");
+	else outFile.open("single_type_breakdown.csv");
 	if (!outFile) {
 		std::cout << "Cannot Create File";
 		return;
 	}
 
-	for (auto& t : types) {
-		std::cout << "\n------------------------" << TypeToString(t.GetType()) << "------------------------" << std::endl;
-		outFile << "------------------------" << TypeToString(t.GetType()) << "------------------------" << "\n";
-		for (int i = 0; i < 2; ++i) {
-			std::vector<std::string> effects;
-			for (DamageResult s = (DamageResult)0; s != NUMDAMAGES; s = (DamageResult)(s + 1))
-			{
-				effects.push_back(std::string());
-			}
-
-			std::map<PokemonType, DamageResult> map = !i ? t.offensive : t.resistance;
-			for (auto const& x : map)
-			{
-				std::string value = TypeToString(x.first);
-				switch (x.second) {
-				case NO_EFFECT:
-					effects.at(0).append(" , " + value);
-					break;
-				case NOT_VERY_EFFECTIVE:
-					effects.at(1).append(" , " + value);
-					break;
-				case EFFECTIVE:
-					effects.at(2).append(" , " + value);
-					break;
-				case SUPER_EFFECTIVE:
-					effects.at(3).append(" , " + value);
-					break;
+	if (dualType) {
+		for (auto& t : dualTypes) {
+			std::cout << "\n------------------------" << t << "------------------------" << std::endl;
+			outFile << "------------------------" << t << "------------------------" << "\n";
+			for (int i = 0; i < 2; ++i) {
+				std::vector<std::string> effects;
+				for (DamageResult s = (DamageResult)0; s != NUMDAMAGES; s = (DamageResult)(s + 1))
+				{
+					effects.push_back(std::string());
 				}
-			}
 
-			if (!i) {
-				std::cout << "|      Attacking      |" << std::endl;
-				outFile << "|      Attacking      |\n";
-			}
-			else {
-				std::cout << "\n|      Defending      |" << std::endl;
-				outFile << "\n|      Defending      |\n";
-			}
-			std::map<DamageResult, int> damageMap = !i ? t.GetOffensiveOccurences() : t.GetResistanceOccurences();
-			for (DamageResult s = (DamageResult)0; s != NUMDAMAGES; s = (DamageResult)(s + 1))
-			{
-				if (damageMap[s]) {
-					std::string info = DamageToString(s) + "[" + std::to_string(damageMap[s]) + "]: ";
-					std::cout << std::setw(24) << info;
-					outFile << info;
-					
-					std::cout << effects.at(s).substr(3, effects.at(s).size() - 1) << std::endl;
-					outFile << effects.at(s) << "\n";
+				std::map<std::pair<PokemonType, PokemonType>, DamageResult> map = !i ? t.offensive : t.resistance;
+				for (auto const& x : map)
+				{
+					std::string value = TypeToString(x.first);
+					switch (x.second) {
+					case ZERO:
+						effects.at(0).append(" , " + value);
+						break;
+					case QUARTER:
+						effects.at(1).append(" , " + value);
+						break;
+					case HALF:
+						effects.at(2).append(" , " + value);
+						break;
+					case ONE:
+						effects.at(3).append(" , " + value);
+						break;
+					case DOUBLE:
+						effects.at(4).append(" , " + value);
+						break;
+					case QUADRUPLE:
+						effects.at(5).append(" , " + value);
+						break;
+					}
 				}
+
+				if (!i) {
+					std::cout << std::setw(whiteSpace) << "|Attacking|" << std::endl;
+					outFile << std::setw(whiteSpace) << "|Attacking|\n";
+				}
+				else {
+					std::cout << "\n" << std::setw(whiteSpace) << "|Defending|" << std::endl;
+					outFile << "\n" << std::setw(whiteSpace) << "|Defending|" << "\n";
+				}
+				std::map<DamageResult, int> damageMap = !i ? t.GetOffensiveOccurences() : t.GetResistanceOccurences();
+				for (DamageResult s = (DamageResult)0; s != NUMDAMAGES; s = (DamageResult)(s + 1))
+				{
+					if (damageMap[s]) {
+						std::string info = DamageToString(s) + "[" + std::to_string(damageMap[s]) + "]:";
+						std::cout << std::setw(whiteSpace) << info;
+						outFile << info;
+
+						std::cout << effects.at(s).substr(3, effects.at(s).size() - 1) << std::endl;
+						outFile << effects.at(s) << "\n";
+					}
+				}
+				float stat = !i ? t.GetOffensiveStat() : t.GetDefensiveStat();
+				std::cout << std::setw(whiteSpace) << "Total Score: " << stat << std::endl;
+				outFile << "Total Score: " << stat << "\n";
 			}
-			int stat = !i ? t.GetOffensiveStat() : t.GetDefensiveStat();
-			std::cout << std::setw(24) << "Total Score: " << stat << std::endl;
-			outFile << "Total Score: " << stat << "\n";
+			outFile << "\n";
 		}
-		outFile << "\n";
+	}
+	else {
+		for (auto& t : types) {
+			std::cout << "\n------------------------" << t << "------------------------" << std::endl;
+			outFile << "------------------------" << t << "------------------------" << "\n";
+			for (int i = 0; i < 2; ++i) {
+				std::vector<std::string> effects;
+				for (DamageResult s = (DamageResult)0; s != NUMDAMAGES; s = (DamageResult)(s + 1))
+				{
+					effects.push_back(std::string());
+				}
+
+				std::map<PokemonType, DamageResult> map = !i ? t.offensive : t.resistance;
+				for (auto const& x : map)
+				{
+					std::string value = TypeToString(x.first);
+					switch (x.second) {
+					case ZERO:
+						effects.at(0).append(" , " + value);
+						break;
+					case HALF:
+						effects.at(2).append(" , " + value);
+						break;
+					case ONE:
+						effects.at(3).append(" , " + value);
+						break;
+					case DOUBLE:
+						effects.at(4).append(" , " + value);
+						break;
+					}
+				}
+
+				if (!i) {
+					std::cout << std::setw(whiteSpace) << "|Attacking|" << std::endl;
+					outFile << std::setw(whiteSpace) << "|Attacking|" << "\n";
+				}
+				else {
+					std::cout << "\n" << std::setw(whiteSpace) << "|Defending|" << std::endl;
+					outFile << "\n" << std::setw(whiteSpace) << "|Defending|" << "\n";
+				}
+				std::map<DamageResult, int> damageMap = !i ? t.GetOffensiveOccurences() : t.GetResistanceOccurences();
+				for (DamageResult s = (DamageResult)0; s != NUMDAMAGES; s = (DamageResult)(s + 1))
+				{
+					if (damageMap[s]) {
+						std::string info = DamageToString(s) + "[" + std::to_string(damageMap[s]) + "]:";
+						std::cout << std::setw(whiteSpace) << info;
+						outFile << info;
+
+						std::cout << effects.at(s).substr(3, effects.at(s).size() - 1) << std::endl;
+						outFile << effects.at(s) << "\n";
+					}
+				}
+				float stat = !i ? t.GetOffensiveStat() : t.GetDefensiveStat();
+				std::cout << std::setw(whiteSpace) << "Total Score: " << stat << std::endl;
+				outFile << "Total Score: " << stat << "\n";
+			}
+			outFile << "\n";
+		}
 	}
 	outFile.close();
 }
 
-void TypeManager::CreateDualTypes()
+void TypeManager::AnalyseDualTypes()
 {
-	for (int i = 0; i < types.size(); i++) {
-		for (int j = i; j < types.size(); j++) {
-			Type t(std::pair<BaseType, BaseType> (types.at(i), types.at(j)));
-			std::cout << TypeToString(t.GetType().first.GetType()) << " / " << TypeToString(t.GetType().second.GetType()) << std::endl;
-			for (auto& x : t.resistance) {
-				std::cout << TypeToString(x.first) << ": " << x.second << std::endl;
+	for (auto& currentType : dualTypes) {
+		std::pair<MonoType, MonoType> monoTypes = currentType.GetType();
+		std::pair<PokemonType, PokemonType> currentTypes(monoTypes.first.GetType(), monoTypes.second.GetType());
+		for (auto& other : dualTypes) {
+			std::pair<PokemonType, PokemonType> otherTypes(other.GetType().first.GetType(), other.GetType().second.GetType());
+			DamageResult typeResult[2]{ZERO, ZERO};
+			for (int x = 0; x < 2; ++x) {
+				MonoType typeInstance = x ? monoTypes.first : monoTypes.second;
+				DamageResult offense1 = typeInstance.offensive.find(otherTypes.first)->second;
+				DamageResult offense2 = typeInstance.offensive.find(otherTypes.second)->second;
+				if (offense1 == ZERO || offense2 == ZERO) {
+					typeResult[x] = ZERO;
+					continue;
+				}
+				else {
+					std::pair<DamageResult, DamageResult> offensePair(offense1, offense2);
+					if (otherTypes.first == otherTypes.second) {
+						switch (offensePair.first) {
+						case HALF:
+							typeResult[x] = HALF;
+							break;
+						case ONE:
+							typeResult[x] = ONE;
+							break;
+						case DOUBLE:
+							typeResult[x] = DOUBLE;
+							break;
+						}
+					}
+					else {
+						switch (offensePair.first) {
+						case HALF:
+							switch (offensePair.second) {
+							case HALF:
+								typeResult[x] = QUARTER;
+								break;
+							case ONE:
+								typeResult[x] = HALF;
+								break;
+							case DOUBLE:
+								typeResult[x] = ONE;
+								break;
+							}
+							break;
+						case ONE:
+							switch (offensePair.second) {
+							case HALF:
+								typeResult[x] = HALF;
+								break;
+							case ONE:
+								typeResult[x] = ONE;
+								break;
+							case DOUBLE:
+								typeResult[x] = DOUBLE;
+								break;
+							}
+							break;
+						case DOUBLE:
+							switch (offensePair.second) {
+							case HALF:
+								typeResult[x] = ONE;
+								break;
+							case ONE:
+								typeResult[x] = DOUBLE;
+								break;
+							case DOUBLE:
+								typeResult[x] = QUADRUPLE;
+								break;
+							}
+							break;
+						}
+						if (currentTypes.first == currentTypes.second) break;
+					}
+				}
 			}
-			dualTypes.push_back(t);
+			DamageResult bestType = typeResult[1] > typeResult[0] ? typeResult[1] : typeResult[0];
+			currentType.offensive[otherTypes] = bestType;
+			other.resistance[currentTypes] = bestType;
 		}
 	}
+
+	for (auto& t : dualTypes) {
+		t.Analyse();
+	}
+
+	dualTypesByOffence = dualTypes;
+	SortTypesByOffense(dualTypesByOffence);
+
+	dualTypesByDefence = dualTypes;
+	SortTypesByDefense(dualTypesByDefence);
+
+	dualTypesByTotal = dualTypes;
+	SortTypesByTotal(dualTypesByTotal);
 }
 
-void TypeManager::SortTypesByOffense(std::vector<BaseType>& sort)
+void TypeManager::SortTypesByOffense(std::vector<MonoType>& sort)
 {
-	std::sort(sort.begin(), sort.end(), [](const BaseType& lhs, const BaseType& rhs) {
+	std::sort(sort.begin(), sort.end(), [](const MonoType& lhs, const MonoType& rhs) {
 		return lhs.GetOffensiveStat() > rhs.GetOffensiveStat();
 	});
 }
 
-void TypeManager::SortTypesByDefense(std::vector<BaseType>& sort)
+void TypeManager::SortTypesByOffense(std::vector<Type>& sort)
 {
-	std::sort(sort.begin(), sort.end(), [](const BaseType& lhs, const BaseType& rhs) {
-		return lhs.GetDefensiveStat() > rhs.GetDefensiveStat();
+	std::sort(sort.begin(), sort.end(), [](const Type& lhs, const Type& rhs) {
+		return lhs.GetOffensiveStat() > rhs.GetOffensiveStat();
+		});
+}
+
+void TypeManager::SortTypesByDefense(std::vector<MonoType>& sort)
+{
+	std::sort(sort.begin(), sort.end(), [](const MonoType& lhs, const MonoType& rhs) {
+		return lhs.GetDefensiveStat() < rhs.GetDefensiveStat();
 	});
 }
 
-void TypeManager::SortTypesByTotal(std::vector<BaseType>& sort)
+void TypeManager::SortTypesByDefense(std::vector<Type>& sort)
+{
+	std::sort(sort.begin(), sort.end(), [](const Type& lhs, const Type& rhs) {
+		return lhs.GetDefensiveStat() < rhs.GetDefensiveStat();
+		});
+}
+
+void TypeManager::SortTypesByTotal(std::vector<MonoType>& sort)
 {
 	std::sort(sort.begin(), sort.end());
 }
 
+void TypeManager::SortTypesByTotal(std::vector<Type>& sort)
+{
+	std::sort(sort.begin(), sort.end());
+}
 
 
 

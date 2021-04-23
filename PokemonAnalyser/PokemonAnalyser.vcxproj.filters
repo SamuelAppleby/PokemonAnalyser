@@ -21,7 +21,7 @@
     <ClCompile Include="TypeManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BaseType.cpp">
+    <ClCompile Include="MonoType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Type.cpp">
@@ -32,10 +32,13 @@
     <ClInclude Include="TypeManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BaseType.h">
+    <ClInclude Include="MonoType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Type.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

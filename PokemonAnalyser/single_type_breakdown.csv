@@ -1,0 +1,247 @@
+------------------------Normal------------------------
+                   |Attacking|
+0x[1]: , Ghost
+0.5x[2]: , Rock , Steel
+1x[15]: , Normal , Fire , Water , Electric , Grass , Ice , Fighting , Poison , Ground , Flying , Psychic , Bug , Dragon , Dark , Fairy
+Total Score: 0.888889
+
+                   |Defending|
+0x[1]: , Ghost
+1x[16]: , Normal , Fire , Water , Electric , Grass , Ice , Poison , Ground , Flying , Psychic , Bug , Rock , Dragon , Dark , Steel , Fairy
+2x[1]: , Fighting
+Total Score: 1
+
+------------------------Fire------------------------
+                   |Attacking|
+0.5x[4]: , Fire , Water , Rock , Dragon
+1x[10]: , Normal , Electric , Fighting , Poison , Ground , Flying , Psychic , Ghost , Dark , Fairy
+2x[4]: , Grass , Ice , Bug , Steel
+Total Score: 1.11111
+
+                   |Defending|
+0.5x[6]: , Fire , Grass , Ice , Bug , Steel , Fairy
+1x[9]: , Normal , Electric , Fighting , Poison , Flying , Psychic , Ghost , Dragon , Dark
+2x[3]: , Water , Ground , Rock
+Total Score: 1
+
+------------------------Water------------------------
+                   |Attacking|
+0.5x[3]: , Water , Grass , Dragon
+1x[12]: , Normal , Electric , Ice , Fighting , Poison , Flying , Psychic , Bug , Ghost , Dark , Steel , Fairy
+2x[3]: , Fire , Ground , Rock
+Total Score: 1.08333
+
+                   |Defending|
+0.5x[4]: , Fire , Water , Ice , Steel
+1x[12]: , Normal , Fighting , Poison , Ground , Flying , Psychic , Bug , Rock , Ghost , Dragon , Dark , Fairy
+2x[2]: , Electric , Grass
+Total Score: 1
+
+------------------------Electric------------------------
+                   |Attacking|
+0x[1]: , Ground
+0.5x[3]: , Electric , Grass , Dragon
+1x[12]: , Normal , Fire , Ice , Fighting , Poison , Psychic , Bug , Rock , Ghost , Dark , Steel , Fairy
+2x[2]: , Water , Flying
+Total Score: 0.972222
+
+                   |Defending|
+0.5x[3]: , Electric , Flying , Steel
+1x[14]: , Normal , Fire , Water , Grass , Ice , Fighting , Poison , Psychic , Bug , Rock , Ghost , Dragon , Dark , Fairy
+2x[1]: , Ground
+Total Score: 0.972222
+
+------------------------Grass------------------------
+                   |Attacking|
+0.5x[7]: , Fire , Grass , Poison , Flying , Bug , Dragon , Steel
+1x[8]: , Normal , Electric , Ice , Fighting , Psychic , Ghost , Dark , Fairy
+2x[3]: , Water , Ground , Rock
+Total Score: 0.972222
+
+                   |Defending|
+0.5x[4]: , Water , Electric , Grass , Ground
+1x[9]: , Normal , Fighting , Psychic , Rock , Ghost , Dragon , Dark , Steel , Fairy
+2x[5]: , Fire , Ice , Poison , Flying , Bug
+Total Score: 1.16667
+
+------------------------Ice------------------------
+                   |Attacking|
+0.5x[4]: , Fire , Water , Ice , Steel
+1x[10]: , Normal , Electric , Fighting , Poison , Psychic , Bug , Rock , Ghost , Dark , Fairy
+2x[4]: , Grass , Ground , Flying , Dragon
+Total Score: 1.11111
+
+                   |Defending|
+0.5x[1]: , Ice
+1x[13]: , Normal , Water , Electric , Grass , Poison , Ground , Flying , Psychic , Bug , Ghost , Dragon , Dark , Fairy
+2x[4]: , Fire , Fighting , Rock , Steel
+Total Score: 1.19444
+
+------------------------Fighting------------------------
+                   |Attacking|
+0x[1]: , Ghost
+0.5x[5]: , Poison , Flying , Psychic , Bug , Fairy
+1x[7]: , Fire , Water , Electric , Grass , Fighting , Ground , Dragon
+2x[5]: , Normal , Ice , Rock , Dark , Steel
+Total Score: 1.08333
+
+                   |Defending|
+0.5x[3]: , Bug , Rock , Dark
+1x[12]: , Normal , Fire , Water , Electric , Grass , Ice , Fighting , Poison , Ground , Ghost , Dragon , Steel
+2x[3]: , Flying , Psychic , Fairy
+Total Score: 1.08333
+
+------------------------Poison------------------------
+                   |Attacking|
+0x[1]: , Steel
+0.5x[4]: , Poison , Ground , Rock , Ghost
+1x[11]: , Normal , Fire , Water , Electric , Ice , Fighting , Flying , Psychic , Bug , Dragon , Dark
+2x[2]: , Grass , Fairy
+Total Score: 0.944444
+
+                   |Defending|
+0.5x[5]: , Grass , Fighting , Poison , Bug , Fairy
+1x[11]: , Normal , Fire , Water , Electric , Ice , Flying , Rock , Ghost , Dragon , Dark , Steel
+2x[2]: , Ground , Psychic
+Total Score: 0.972222
+
+------------------------Ground------------------------
+                   |Attacking|
+0x[1]: , Flying
+0.5x[2]: , Grass , Bug
+1x[10]: , Normal , Water , Ice , Fighting , Ground , Psychic , Ghost , Dragon , Dark , Fairy
+2x[5]: , Fire , Electric , Poison , Rock , Steel
+Total Score: 1.16667
+
+                   |Defending|
+0x[1]: , Electric
+0.5x[2]: , Poison , Rock
+1x[12]: , Normal , Fire , Fighting , Ground , Flying , Psychic , Bug , Ghost , Dragon , Dark , Steel , Fairy
+2x[3]: , Water , Grass , Ice
+Total Score: 1.05556
+
+------------------------Flying------------------------
+                   |Attacking|
+0.5x[3]: , Electric , Rock , Steel
+1x[12]: , Normal , Fire , Water , Ice , Poison , Ground , Flying , Psychic , Ghost , Dragon , Dark , Fairy
+2x[3]: , Grass , Fighting , Bug
+Total Score: 1.08333
+
+                   |Defending|
+0x[1]: , Ground
+0.5x[3]: , Grass , Fighting , Bug
+1x[11]: , Normal , Fire , Water , Poison , Flying , Psychic , Ghost , Dragon , Dark , Steel , Fairy
+2x[3]: , Electric , Ice , Rock
+Total Score: 1.02778
+
+------------------------Psychic------------------------
+                   |Attacking|
+0x[1]: , Dark
+0.5x[2]: , Psychic , Steel
+1x[13]: , Normal , Fire , Water , Electric , Grass , Ice , Ground , Flying , Bug , Rock , Ghost , Dragon , Fairy
+2x[2]: , Fighting , Poison
+Total Score: 1
+
+                   |Defending|
+0.5x[2]: , Fighting , Psychic
+1x[13]: , Normal , Fire , Water , Electric , Grass , Ice , Poison , Ground , Flying , Rock , Dragon , Steel , Fairy
+2x[3]: , Bug , Ghost , Dark
+Total Score: 1.11111
+
+------------------------Bug------------------------
+                   |Attacking|
+0.5x[7]: , Fire , Fighting , Poison , Flying , Ghost , Steel , Fairy
+1x[7]: , Normal , Water , Electric , Ice , Ground , Bug , Dragon
+2x[4]: , Grass , Psychic , Rock , Dark
+Total Score: 1.02778
+
+                   |Defending|
+0.5x[3]: , Grass , Fighting , Ground
+1x[12]: , Normal , Water , Electric , Ice , Poison , Psychic , Bug , Ghost , Dragon , Dark , Steel , Fairy
+2x[3]: , Fire , Flying , Rock
+Total Score: 1.08333
+
+------------------------Rock------------------------
+                   |Attacking|
+0.5x[3]: , Fighting , Ground , Steel
+1x[11]: , Normal , Water , Electric , Grass , Poison , Psychic , Rock , Ghost , Dragon , Dark , Fairy
+2x[4]: , Fire , Ice , Flying , Bug
+Total Score: 1.13889
+
+                   |Defending|
+0.5x[4]: , Normal , Fire , Poison , Flying
+1x[8]: , Electric , Ice , Psychic , Rock , Ghost , Dragon , Dark , Fairy
+2x[6]: , Water , Grass , Fighting , Ground , Bug , Steel
+Total Score: 1.22222
+
+------------------------Ghost------------------------
+                   |Attacking|
+0x[1]: , Normal
+0.5x[1]: , Dark
+1x[14]: , Fire , Water , Electric , Grass , Ice , Fighting , Poison , Ground , Flying , Bug , Rock , Dragon , Steel , Fairy
+2x[2]: , Psychic , Ghost
+Total Score: 1.02778
+
+                   |Defending|
+0x[2]: , Normal , Fighting
+0.5x[2]: , Poison , Bug
+1x[12]: , Fire , Water , Electric , Grass , Ice , Ground , Flying , Psychic , Rock , Dragon , Steel , Fairy
+2x[2]: , Ghost , Dark
+Total Score: 0.944444
+
+------------------------Dragon------------------------
+                   |Attacking|
+0x[1]: , Fairy
+0.5x[1]: , Steel
+1x[15]: , Normal , Fire , Water , Electric , Grass , Ice , Fighting , Poison , Ground , Flying , Psychic , Bug , Rock , Ghost , Dark
+2x[1]: , Dragon
+Total Score: 0.972222
+
+                   |Defending|
+0.5x[4]: , Fire , Water , Electric , Grass
+1x[11]: , Normal , Fighting , Poison , Ground , Flying , Psychic , Bug , Rock , Ghost , Dark , Steel
+2x[3]: , Ice , Dragon , Fairy
+Total Score: 1.05556
+
+------------------------Dark------------------------
+                   |Attacking|
+0.5x[3]: , Fighting , Dark , Fairy
+1x[13]: , Normal , Fire , Water , Electric , Grass , Ice , Poison , Ground , Flying , Bug , Rock , Dragon , Steel
+2x[2]: , Psychic , Ghost
+Total Score: 1.02778
+
+                   |Defending|
+0x[1]: , Psychic
+0.5x[2]: , Ghost , Dark
+1x[12]: , Normal , Fire , Water , Electric , Grass , Ice , Poison , Ground , Flying , Rock , Dragon , Steel
+2x[3]: , Fighting , Bug , Fairy
+Total Score: 1.05556
+
+------------------------Steel------------------------
+                   |Attacking|
+0.5x[4]: , Fire , Water , Electric , Steel
+1x[11]: , Normal , Grass , Fighting , Poison , Ground , Flying , Psychic , Bug , Ghost , Dragon , Dark
+2x[3]: , Ice , Rock , Fairy
+Total Score: 1.05556
+
+                   |Defending|
+0x[1]: , Poison
+0.5x[10]: , Normal , Grass , Ice , Flying , Psychic , Bug , Rock , Dragon , Steel , Fairy
+1x[4]: , Water , Electric , Ghost , Dark
+2x[3]: , Fire , Fighting , Ground
+Total Score: 0.833333
+
+------------------------Fairy------------------------
+                   |Attacking|
+0.5x[3]: , Fire , Poison , Steel
+1x[12]: , Normal , Water , Electric , Grass , Ice , Ground , Flying , Psychic , Bug , Rock , Ghost , Fairy
+2x[3]: , Fighting , Dragon , Dark
+Total Score: 1.08333
+
+                   |Defending|
+0x[1]: , Dragon
+0.5x[3]: , Fighting , Bug , Dark
+1x[12]: , Normal , Fire , Water , Electric , Grass , Ice , Ground , Flying , Psychic , Rock , Ghost , Fairy
+2x[2]: , Poison , Steel
+Total Score: 0.972222
+
