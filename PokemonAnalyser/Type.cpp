@@ -2,7 +2,7 @@
 
 Type::Type(std::pair<MonoType, MonoType> t)
 {
-	type = t;
+	typePair = t;
 	offensiveStat = 0;
 	defensiveStat = 0;
 	totalStat = 0;
@@ -44,7 +44,7 @@ void Type::Analyse()
 
 std::ostream& operator<<(std::ostream& strm, const Type& a) {
 	for (int i = 0; i < 2; ++i) {
-		PokemonType type = i ? a.GetType().first.GetType() : a.GetType().second.GetType();
+		PokemonType type = i ? a.GetTypePair().first.GetType() : a.GetTypePair().second.GetType();
 		switch (type) {
 		case NORMAL: strm << "Normal"; break;
 		case FIRE: strm << "Fire"; break;

@@ -141,12 +141,16 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MonoType.cpp" />
+    <ClCompile Include="Pokemon.cpp" />
+    <ClCompile Include="PokemonManager.cpp" />
     <ClCompile Include="Type.cpp" />
     <ClCompile Include="TypeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseType.h" />
     <ClInclude Include="MonoType.h" />
+    <ClInclude Include="Pokemon.h" />
+    <ClInclude Include="PokemonManager.h" />
     <ClInclude Include="Type.h" />
     <ClInclude Include="TypeManager.h" />
   </ItemGroup>

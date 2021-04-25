@@ -3,40 +3,37 @@
  *		  TypeManagerImplementation			    */
 #include "TypeManager.h"
 #include <iomanip>
-
+#include <sstream>
+std::vector<Type> TypeManager::dualTypes;
 TypeManager::TypeManager(std::ifstream& stream) 
 {
 	std::string line;
 	int lineNo = 0;
-	std::string delimiter = "|";
+	char delimiter = '|';
+	std::string str;
 	while (getline(stream, line)) {
-		line.erase(std::remove_if(line.begin(), line.end(), ::isspace), line.end());
+		line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
 		if (!lineNo) {
 			size_t position = 0;
-			std::string token;
-			while ((position = line.find(delimiter)) != std::string::npos) {
-				token = line.substr(0, position);
-				MonoType t(ConvertTypeName(token));
+			std::stringstream ss(line);
+			while (getline(ss, str, delimiter)) {
+				MonoType t(ConvertTypeName(str));
 				types.push_back(t);
-				line.erase(0, position + delimiter.length());
 			}
 		}	
 		else {
 			int tokenNo = 0;
-			size_t position = 0;
-			std::string token;
 			MonoType* currentType = nullptr;
-			while ((position = line.find(delimiter)) != std::string::npos) {
-				token = line.substr(0, position);
-				if (!tokenNo) currentType = FindTypeInList(ConvertTypeName(token));
+			std::stringstream ss(line);
+			while (getline(ss, str, delimiter)) {
+				if (!tokenNo) currentType = FindTypeInList(ConvertTypeName(str));
 				else {
 					PokemonType other = PokemonType(tokenNo - 1);
 					MonoType* otherType = FindTypeInList(other);
-					DamageResult dmg = ConvertDamageName(token);
+					DamageResult dmg = ConvertDamageName(str);
 					currentType->offensive[other] = dmg;
 					otherType->resistance[currentType->GetType()] = dmg;
 				}
-				line.erase(0, position + delimiter.length());
 				tokenNo++;
 			}
 		}
@@ -54,6 +51,15 @@ MonoType* TypeManager::FindTypeInList(PokemonType type)
 {
 	for (auto& t : types) {
 		if (type == t.GetType()) return &t;
+	}
+	return nullptr;
+}
+
+Type* TypeManager::FindTypeInList(std::pair<PokemonType, PokemonType> typePair)
+{
+	for (auto& t : dualTypes) {
+		if (t.GetTypePair().first.GetType() == typePair.first && t.GetTypePair().second.GetType() == typePair.second
+			|| t.GetTypePair().first.GetType() == typePair.second && t.GetTypePair().second.GetType() == typePair.first) return &t;
 	}
 	return nullptr;
 }
@@ -199,7 +205,7 @@ void TypeManager::Summary(bool dualType)
 			if (dualType) {
 				Type current = !j ? dualTypesByOffence.at(i) : j == 1 ? dualTypesByDefence.at(i) : dualTypesByTotal.at(i);
 				float value = !j ? current.GetOffensiveStat() : j == 1 ? current.GetDefensiveStat() : current.GetTotalStat();
-				std::cout << std::setw(whiteSpace) << std::string(TypeToString(current.GetType()) + ":" + std::to_string(value)) << "\t";
+				std::cout << std::setw(whiteSpace) << std::string(TypeToString(current.GetTypePair()) + ":" + std::to_string(value)) << "\t";
 				if (j != 2) outFile << current << ":" + std::to_string(value) << ",";
 				else outFile << current << ":" + std::to_string(value) << "\n";
 			}
@@ -355,10 +361,10 @@ void TypeManager::OutputResults(bool dualType)
 void TypeManager::AnalyseDualTypes()
 {
 	for (auto& currentType : dualTypes) {
-		std::pair<MonoType, MonoType> monoTypes = currentType.GetType();
+		std::pair<MonoType, MonoType> monoTypes = currentType.GetTypePair();
 		std::pair<PokemonType, PokemonType> currentTypes(monoTypes.first.GetType(), monoTypes.second.GetType());
 		for (auto& other : dualTypes) {
-			std::pair<PokemonType, PokemonType> otherTypes(other.GetType().first.GetType(), other.GetType().second.GetType());
+			std::pair<PokemonType, PokemonType> otherTypes(other.GetTypePair().first.GetType(), other.GetTypePair().second.GetType());
 			DamageResult typeResult[2]{ZERO, ZERO};
 			for (int x = 0; x < 2; ++x) {
 				MonoType typeInstance = x ? monoTypes.first : monoTypes.second;

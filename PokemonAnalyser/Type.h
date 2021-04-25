@@ -10,13 +10,14 @@ public:
 	void Analyse();
 
 
-	std::pair<MonoType, MonoType> GetType() const {
-		return type;
+	std::pair<MonoType, MonoType> GetTypePair() const {
+		return typePair;
 	}
 
 	bool operator==(Type& other) const
 	{
-		if (type.first.GetType() == other.GetType().first.GetType() && type.second.GetType() == other.GetType().second.GetType()) {
+		if (typePair.first.GetType() == other.GetTypePair().first.GetType() && 
+			typePair.second.GetType() == other.GetTypePair().second.GetType()) {
 			return true;
 		}
 		return false;
@@ -28,6 +29,6 @@ public:
 	std::map<std::pair<PokemonType, PokemonType>, DamageResult> resistance;
 
 private:
-	std::pair<MonoType, MonoType> type;
+	std::pair<MonoType, MonoType> typePair;
 };
 

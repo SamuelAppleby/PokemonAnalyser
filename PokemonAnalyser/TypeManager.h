@@ -15,9 +15,10 @@ class TypeManager
 public:
 	TypeManager(std::ifstream& stream);
 	MonoType* FindTypeInList(PokemonType type);
-	PokemonType ConvertTypeName(std::string name);
-	DamageResult ConvertDamageName(std::string damage);
-	std::string TypeToString(PokemonType type);
+	static Type* FindTypeInList(std::pair<PokemonType, PokemonType> types);
+	static PokemonType ConvertTypeName(std::string name);
+	static DamageResult ConvertDamageName(std::string damage);
+	static std::string TypeToString(PokemonType type);
 	std::string TypeToString(std::pair<MonoType, MonoType> types);
 	std::string DamageToString(DamageResult type);
 	void AnalyseTypes();
@@ -37,7 +38,7 @@ private:
 	std::vector<MonoType> baseTypesByDefence;
 	std::vector<MonoType> baseTypesByTotal;
 
-	std::vector<Type> dualTypes;
+	static std::vector<Type> dualTypes;
 	std::vector<Type> dualTypesByOffence;
 	std::vector<Type> dualTypesByDefence;
 	std::vector<Type> dualTypesByTotal;
