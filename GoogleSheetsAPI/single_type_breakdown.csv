@@ -1,0 +1,252 @@
+------------------------NORMAL------------------------
+|Attacking|
+0x[1]: , GHOST
+0.5x[2]: , ROCK, STEEL
+1x[15]: , NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, DRAGON, DARK, FAIRY
+2x[0]: 
+Total Score: 0.889
+|Defending|
+0x[1]: , GHOST
+0.5x[0]: 
+1x[16]: , NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, DRAGON, DARK, STEEL, FAIRY
+2x[1]: , FIGHTING
+Total Score: 1.000
+
+------------------------FIRE------------------------
+|Attacking|
+0x[0]: 
+0.5x[4]: , FIRE, WATER, ROCK, DRAGON
+1x[10]: , NORMAL, ELECTRIC, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, GHOST, DARK, FAIRY
+2x[4]: , GRASS, ICE, BUG, STEEL
+Total Score: 1.111
+|Defending|
+0x[0]: 
+0.5x[6]: , FIRE, GRASS, ICE, BUG, STEEL, FAIRY
+1x[9]: , NORMAL, ELECTRIC, FIGHTING, POISON, FLYING, PSYCHIC, GHOST, DRAGON, DARK
+2x[3]: , WATER, GROUND, ROCK
+Total Score: 1.000
+
+------------------------WATER------------------------
+|Attacking|
+0x[0]: 
+0.5x[3]: , WATER, GRASS, DRAGON
+1x[12]: , NORMAL, ELECTRIC, ICE, FIGHTING, POISON, FLYING, PSYCHIC, BUG, GHOST, DARK, STEEL, FAIRY
+2x[3]: , FIRE, GROUND, ROCK
+Total Score: 1.083
+|Defending|
+0x[0]: 
+0.5x[4]: , FIRE, WATER, ICE, STEEL
+1x[12]: , NORMAL, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, FAIRY
+2x[2]: , ELECTRIC, GRASS
+Total Score: 1.000
+
+------------------------ELECTRIC------------------------
+|Attacking|
+0x[1]: , GROUND
+0.5x[3]: , ELECTRIC, GRASS, DRAGON
+1x[12]: , NORMAL, FIRE, ICE, FIGHTING, POISON, PSYCHIC, BUG, ROCK, GHOST, DARK, STEEL, FAIRY
+2x[2]: , WATER, FLYING
+Total Score: 0.972
+|Defending|
+0x[0]: 
+0.5x[3]: , ELECTRIC, FLYING, STEEL
+1x[14]: , NORMAL, FIRE, WATER, GRASS, ICE, FIGHTING, POISON, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, FAIRY
+2x[1]: , GROUND
+Total Score: 0.972
+
+------------------------GRASS------------------------
+|Attacking|
+0x[0]: 
+0.5x[7]: , FIRE, GRASS, POISON, FLYING, BUG, DRAGON, STEEL
+1x[8]: , NORMAL, ELECTRIC, ICE, FIGHTING, PSYCHIC, GHOST, DARK, FAIRY
+2x[3]: , WATER, GROUND, ROCK
+Total Score: 0.972
+|Defending|
+0x[0]: 
+0.5x[4]: , WATER, ELECTRIC, GRASS, GROUND
+1x[9]: , NORMAL, FIGHTING, PSYCHIC, ROCK, GHOST, DRAGON, DARK, STEEL, FAIRY
+2x[5]: , FIRE, ICE, POISON, FLYING, BUG
+Total Score: 1.167
+
+------------------------ICE------------------------
+|Attacking|
+0x[0]: 
+0.5x[4]: , FIRE, WATER, ICE, STEEL
+1x[10]: , NORMAL, ELECTRIC, FIGHTING, POISON, PSYCHIC, BUG, ROCK, GHOST, DARK, FAIRY
+2x[4]: , GRASS, GROUND, FLYING, DRAGON
+Total Score: 1.111
+|Defending|
+0x[0]: 
+0.5x[1]: , ICE
+1x[13]: , NORMAL, WATER, ELECTRIC, GRASS, POISON, GROUND, FLYING, PSYCHIC, BUG, GHOST, DRAGON, DARK, FAIRY
+2x[4]: , FIRE, FIGHTING, ROCK, STEEL
+Total Score: 1.194
+
+------------------------FIGHTING------------------------
+|Attacking|
+0x[1]: , GHOST
+0.5x[5]: , POISON, FLYING, PSYCHIC, BUG, FAIRY
+1x[7]: , FIRE, WATER, ELECTRIC, GRASS, FIGHTING, GROUND, DRAGON
+2x[5]: , NORMAL, ICE, ROCK, DARK, STEEL
+Total Score: 1.083
+|Defending|
+0x[0]: 
+0.5x[3]: , BUG, ROCK, DARK
+1x[12]: , NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, GHOST, DRAGON, STEEL
+2x[3]: , FLYING, PSYCHIC, FAIRY
+Total Score: 1.083
+
+------------------------POISON------------------------
+|Attacking|
+0x[1]: , STEEL
+0.5x[4]: , POISON, GROUND, ROCK, GHOST
+1x[11]: , NORMAL, FIRE, WATER, ELECTRIC, ICE, FIGHTING, FLYING, PSYCHIC, BUG, DRAGON, DARK
+2x[2]: , GRASS, FAIRY
+Total Score: 0.944
+|Defending|
+0x[0]: 
+0.5x[5]: , GRASS, FIGHTING, POISON, BUG, FAIRY
+1x[11]: , NORMAL, FIRE, WATER, ELECTRIC, ICE, FLYING, ROCK, GHOST, DRAGON, DARK, STEEL
+2x[2]: , GROUND, PSYCHIC
+Total Score: 0.972
+
+------------------------GROUND------------------------
+|Attacking|
+0x[1]: , FLYING
+0.5x[2]: , GRASS, BUG
+1x[10]: , NORMAL, WATER, ICE, FIGHTING, GROUND, PSYCHIC, GHOST, DRAGON, DARK, FAIRY
+2x[5]: , FIRE, ELECTRIC, POISON, ROCK, STEEL
+Total Score: 1.167
+|Defending|
+0x[1]: , ELECTRIC
+0.5x[2]: , POISON, ROCK
+1x[12]: , NORMAL, FIRE, FIGHTING, GROUND, FLYING, PSYCHIC, BUG, GHOST, DRAGON, DARK, STEEL, FAIRY
+2x[3]: , WATER, GRASS, ICE
+Total Score: 1.056
+
+------------------------FLYING------------------------
+|Attacking|
+0x[0]: 
+0.5x[3]: , ELECTRIC, ROCK, STEEL
+1x[12]: , NORMAL, FIRE, WATER, ICE, POISON, GROUND, FLYING, PSYCHIC, GHOST, DRAGON, DARK, FAIRY
+2x[3]: , GRASS, FIGHTING, BUG
+Total Score: 1.083
+|Defending|
+0x[1]: , GROUND
+0.5x[3]: , GRASS, FIGHTING, BUG
+1x[11]: , NORMAL, FIRE, WATER, POISON, FLYING, PSYCHIC, GHOST, DRAGON, DARK, STEEL, FAIRY
+2x[3]: , ELECTRIC, ICE, ROCK
+Total Score: 1.028
+
+------------------------PSYCHIC------------------------
+|Attacking|
+0x[1]: , DARK
+0.5x[2]: , PSYCHIC, STEEL
+1x[13]: , NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, GROUND, FLYING, BUG, ROCK, GHOST, DRAGON, FAIRY
+2x[2]: , FIGHTING, POISON
+Total Score: 1.000
+|Defending|
+0x[0]: 
+0.5x[2]: , FIGHTING, PSYCHIC
+1x[13]: , NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, POISON, GROUND, FLYING, ROCK, DRAGON, STEEL, FAIRY
+2x[3]: , BUG, GHOST, DARK
+Total Score: 1.111
+
+------------------------BUG------------------------
+|Attacking|
+0x[0]: 
+0.5x[7]: , FIRE, FIGHTING, POISON, FLYING, GHOST, STEEL, FAIRY
+1x[7]: , NORMAL, WATER, ELECTRIC, ICE, GROUND, BUG, DRAGON
+2x[4]: , GRASS, PSYCHIC, ROCK, DARK
+Total Score: 1.028
+|Defending|
+0x[0]: 
+0.5x[3]: , GRASS, FIGHTING, GROUND
+1x[12]: , NORMAL, WATER, ELECTRIC, ICE, POISON, PSYCHIC, BUG, GHOST, DRAGON, DARK, STEEL, FAIRY
+2x[3]: , FIRE, FLYING, ROCK
+Total Score: 1.083
+
+------------------------ROCK------------------------
+|Attacking|
+0x[0]: 
+0.5x[3]: , FIGHTING, GROUND, STEEL
+1x[11]: , NORMAL, WATER, ELECTRIC, GRASS, POISON, PSYCHIC, ROCK, GHOST, DRAGON, DARK, FAIRY
+2x[4]: , FIRE, ICE, FLYING, BUG
+Total Score: 1.139
+|Defending|
+0x[0]: 
+0.5x[4]: , NORMAL, FIRE, POISON, FLYING
+1x[8]: , ELECTRIC, ICE, PSYCHIC, ROCK, GHOST, DRAGON, DARK, FAIRY
+2x[6]: , WATER, GRASS, FIGHTING, GROUND, BUG, STEEL
+Total Score: 1.222
+
+------------------------GHOST------------------------
+|Attacking|
+0x[1]: , NORMAL
+0.5x[1]: , DARK
+1x[14]: , FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, BUG, ROCK, DRAGON, STEEL, FAIRY
+2x[2]: , PSYCHIC, GHOST
+Total Score: 1.028
+|Defending|
+0x[2]: , NORMAL, FIGHTING
+0.5x[2]: , POISON, BUG
+1x[12]: , FIRE, WATER, ELECTRIC, GRASS, ICE, GROUND, FLYING, PSYCHIC, ROCK, DRAGON, STEEL, FAIRY
+2x[2]: , GHOST, DARK
+Total Score: 0.944
+
+------------------------DRAGON------------------------
+|Attacking|
+0x[1]: , FAIRY
+0.5x[1]: , STEEL
+1x[15]: , NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DARK
+2x[1]: , DRAGON
+Total Score: 0.972
+|Defending|
+0x[0]: 
+0.5x[4]: , FIRE, WATER, ELECTRIC, GRASS
+1x[11]: , NORMAL, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DARK, STEEL
+2x[3]: , ICE, DRAGON, FAIRY
+Total Score: 1.056
+
+------------------------DARK------------------------
+|Attacking|
+0x[0]: 
+0.5x[3]: , FIGHTING, DARK, FAIRY
+1x[13]: , NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, POISON, GROUND, FLYING, BUG, ROCK, DRAGON, STEEL
+2x[2]: , PSYCHIC, GHOST
+Total Score: 1.028
+|Defending|
+0x[1]: , PSYCHIC
+0.5x[2]: , GHOST, DARK
+1x[12]: , NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, POISON, GROUND, FLYING, ROCK, DRAGON, STEEL
+2x[3]: , FIGHTING, BUG, FAIRY
+Total Score: 1.056
+
+------------------------STEEL------------------------
+|Attacking|
+0x[0]: 
+0.5x[4]: , FIRE, WATER, ELECTRIC, STEEL
+1x[11]: , NORMAL, GRASS, FIGHTING, POISON, GROUND, FLYING, PSYCHIC, BUG, GHOST, DRAGON, DARK
+2x[3]: , ICE, ROCK, FAIRY
+Total Score: 1.056
+|Defending|
+0x[1]: , POISON
+0.5x[10]: , NORMAL, GRASS, ICE, FLYING, PSYCHIC, BUG, ROCK, DRAGON, STEEL, FAIRY
+1x[4]: , WATER, ELECTRIC, GHOST, DARK
+2x[3]: , FIRE, FIGHTING, GROUND
+Total Score: 0.833
+
+------------------------FAIRY------------------------
+|Attacking|
+0x[0]: 
+0.5x[3]: , FIRE, POISON, STEEL
+1x[12]: , NORMAL, WATER, ELECTRIC, GRASS, ICE, GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, FAIRY
+2x[3]: , FIGHTING, DRAGON, DARK
+Total Score: 1.083
+|Defending|
+0x[1]: , DRAGON
+0.5x[3]: , FIGHTING, BUG, DARK
+1x[12]: , NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, GROUND, FLYING, PSYCHIC, ROCK, GHOST, FAIRY
+2x[2]: , POISON, STEEL
+Total Score: 0.972
+

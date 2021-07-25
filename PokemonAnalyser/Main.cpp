@@ -4,7 +4,6 @@
 #include <iostream>
 #include <fstream>
 #include "TypeManager.h"
-#include "PokemonManager.h"
 using namespace std;
 
 /* Takes in a file name and will return a file stream */
@@ -30,9 +29,8 @@ std::string UserInput() {
 
 int main() {
 	cout << "Loading Files..." << endl;
-	ifstream typeSteam = LoadFile("typechart.txt");
-	ifstream pokemonStream = LoadFile("pokemon_list.txt");
-	if (!typeSteam || !pokemonStream) return -1;
+	ifstream typeSteam = LoadFile("typechart.csv");
+	if (!typeSteam) return -1;
 
 	cout << "Creating Types..." << endl;
 	TypeManager manager(typeSteam);
@@ -56,11 +54,5 @@ int main() {
 	cout << "Would you like a breakdown of the types (Y/N)?: ";
 	if (UserInput()[0] == 'y') manager.OutputResults(true);
 
-	
-	cout << "Creating Pokemon..." << endl;
-	PokemonManager pokeManager(pokemonStream);
-	pokemonStream.close();
-	cout << "Would you to output the Pokemon (Y/N)?: ";
-	if (UserInput()[0] == 'y') pokeManager.PrintPokemon();	
 	return 0;
 }
