@@ -68,15 +68,6 @@ class Program
         Console.WriteLine("Analysing Types...");
         manager.AnalyseTypes();
 
-        Console.WriteLine("Computing Type Similarities...");
-        manager.ComputeTypeSimilarities();
-
-        manager.TypeSimilaritySummary(FILE_DIRECTORY + "type_similarities.csv");
-
-        typeSteam.Close();
-
-        WriteToGoogleSheet(FILE_DIRECTORY + "type_similarities.csv", "TypeSimilarities");
-
         for (int i = 0; i < 2; ++i)
         {
             bool isSingleType = i == 0;
@@ -94,5 +85,19 @@ class Program
             string sheetName = isSingleType ? "SingleTypeRanking" : "DualTypeRanking";
             WriteToGoogleSheet(FILE_DIRECTORY + fileName, sheetName);
         }
+
+        Console.WriteLine("Computing Type Similarities...");
+        manager.ComputeTypeSimilarities();
+
+        manager.TypeSimilaritySummary(FILE_DIRECTORY + "type_similarities.csv");
+
+        WriteToGoogleSheet(FILE_DIRECTORY + "type_similarities.csv", "TypeSimilarities");
+
+        manager.TypeSimilarityTable(FILE_DIRECTORY + "type_similarities_table.csv");
+
+        WriteToGoogleSheet(FILE_DIRECTORY + "type_similarities_table.csv", "TypeSimilaritiesTable");
+
+        typeSteam.Close();
+       
     }
 }

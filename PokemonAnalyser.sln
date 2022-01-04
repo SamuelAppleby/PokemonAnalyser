@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PokemonAnalyser", "PokemonAnalyser\PokemonAnalyser.vcxproj", "{B640C4F4-8398-49C3-AFF6-5C483B16B723}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleSheetsAPI", "GoogleSheetsAPI\GoogleSheetsAPI.csproj", "{485D7CE9-3788-4C45-B41F-6B89BA009AC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleSheetsAPI", "GoogleSheetsAPI\GoogleSheetsAPI.csproj", "{485D7CE9-3788-4C45-B41F-6B89BA009AC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,16 +15,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B640C4F4-8398-49C3-AFF6-5C483B16B723}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{B640C4F4-8398-49C3-AFF6-5C483B16B723}.Debug|x64.ActiveCfg = Debug|x64
-		{B640C4F4-8398-49C3-AFF6-5C483B16B723}.Debug|x64.Build.0 = Debug|x64
-		{B640C4F4-8398-49C3-AFF6-5C483B16B723}.Debug|x86.ActiveCfg = Debug|Win32
-		{B640C4F4-8398-49C3-AFF6-5C483B16B723}.Debug|x86.Build.0 = Debug|Win32
-		{B640C4F4-8398-49C3-AFF6-5C483B16B723}.Release|Any CPU.ActiveCfg = Release|Win32
-		{B640C4F4-8398-49C3-AFF6-5C483B16B723}.Release|x64.ActiveCfg = Release|x64
-		{B640C4F4-8398-49C3-AFF6-5C483B16B723}.Release|x64.Build.0 = Release|x64
-		{B640C4F4-8398-49C3-AFF6-5C483B16B723}.Release|x86.ActiveCfg = Release|Win32
-		{B640C4F4-8398-49C3-AFF6-5C483B16B723}.Release|x86.Build.0 = Release|Win32
 		{485D7CE9-3788-4C45-B41F-6B89BA009AC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{485D7CE9-3788-4C45-B41F-6B89BA009AC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{485D7CE9-3788-4C45-B41F-6B89BA009AC0}.Debug|x64.ActiveCfg = Debug|Any CPU

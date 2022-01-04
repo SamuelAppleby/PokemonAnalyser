@@ -271,27 +271,44 @@ public class TypeManager
                         }
                     }
 
-                    currentSimilarity /= (3 * 17);
+                    currentSimilarity /= ((3 * (types.Count - 1)));
+                    currentSimilarity *= 100F;
 
                     if (k == 0)
                     {
                         first.offensiveSimilarities.Add(second.type, currentSimilarity);
                         second.offensiveSimilarities.Add(first.type, currentSimilarity);
+
+                        similaritiesByOffense.Add(Tuple.Create(first.type, second.type), currentSimilarity);
                     }
                     else
                     {
                         first.defensiveSimilarities.Add(second.type, currentSimilarity);
                         second.defensiveSimilarities.Add(first.type, currentSimilarity);
+
+                        similaritiesByDefence.Add(Tuple.Create(first.type, second.type), currentSimilarity);
                     }
                 }
 
                 float overall = (first.offensiveSimilarities[second.type] + first.defensiveSimilarities[second.type]) / 2F;
                 first.overallSimilarities.Add(second.type, overall);
                 second.overallSimilarities.Add(first.type, overall);
+
+                similaritiesByTotal.Add(Tuple.Create(first.type, second.type), overall);
             }
 
             first.SortTypeSimilarities();
+
         }
+
+        SortSimilarityTables();
+    }
+
+    public void SortSimilarityTables()
+    {
+        similaritiesByOffense = similaritiesByOffense.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+        similaritiesByDefence = similaritiesByDefence.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+        similaritiesByTotal = similaritiesByTotal.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
     }
 
     public void TypeSimilaritySummary(string filePath)
@@ -300,7 +317,7 @@ public class TypeManager
         bool setup = false;
         foreach (MonoType t in types)
         {
-            if(setup)
+            if (setup)
             {
                 Console.WriteLine();
                 csv.AppendLine();
@@ -308,52 +325,113 @@ public class TypeManager
 
             setup = true;
 
-            Console.WriteLine("{0, 25}", t.type.ToString());
+            Console.WriteLine("{0, 40}", t.type.ToString());
             csv.AppendLine(t.type.ToString());
 
-            Console.Write("{0, 25}", "DEFENSIVE SIMILARITIES");
-            csv.Append("DEFENSIVE SIMILARITIES,,");
-            Console.Write("{0, 25}", "OFFENSIVE SIMILARITIES");
-            csv.Append("OFFENSIVE SIMILARITIES,,");
-            Console.WriteLine("{0, 25}", "OVERALL SIMILARITIES");
+            Console.Write("{0, 40}", "DEFENSIVE SIMILARITIES");
+            csv.Append("DEFENSIVE SIMILARITIES,,,");
+            Console.Write("{0, 40}", "OFFENSIVE SIMILARITIES");
+            csv.Append("OFFENSIVE SIMILARITIES,,,");
+            Console.WriteLine("{0, 40}", "OVERALL SIMILARITIES");
             csv.AppendLine("OVERALL SIMILARITIES");
 
-            for (int i = 0; i < 6; ++i)
+            for (int i = 0; i < 3; ++i)
             {
-                if (i%2 == 0)
+                Console.Write("{0, 20}", "TYPE");
+                Console.Write("{0, 20}", "SCORE");
+
+                if (i != 2)
                 {
-                    Console.Write("{0, 15}", "TYPE");
-                    csv.Append("TYPE,");
+                    csv.Append("TYPE, SCORE,,");
                 }
                 else
                 {
-                    Console.Write("{0, 10}", "SCORE");
-                    csv.Append("SCORE,");
+                    csv.AppendLine("TYPE, SCORE");
                 }
             }
 
             Console.WriteLine();
-            csv.AppendLine();
 
-            for (int i = 0; i < types.Count - 1; ++i)
+            for (int i = 0; i < t.overallSimilarities.Count - 1; ++i)
             {
-                Console.Write("{0, 16}", t.offensiveSimilarities.ElementAt(i).Key.ToString() + ": ");
-                Console.Write("{0, 9}", String.Format("{0:0.0}", t.offensiveSimilarities.ElementAt(i).Value * 100) + "%");
-                csv.Append(t.offensiveSimilarities.ElementAt(i).Key.ToString() + ": ,"
-                    + String.Format("{0:0.0}", t.offensiveSimilarities.ElementAt(i).Value * 100) + "%,");
+                for (int j = 0; j < 3; ++j)
+                {
+                    KeyValuePair<PokemonType, float> elem = j == 0 ? t.offensiveSimilarities.ElementAt(i) :
+                        j == 1 ? t.defensiveSimilarities.ElementAt(i) : t.overallSimilarities.ElementAt(i);
 
-                Console.Write("{0, 16}", t.defensiveSimilarities.ElementAt(i).Key.ToString() + ": ");
-                Console.Write("{0, 9}", String.Format("{0:0.0}", t.defensiveSimilarities.ElementAt(i).Value * 100) + "%");
-                csv.Append(t.defensiveSimilarities.ElementAt(i).Key.ToString() + ": ,"
-                    + String.Format("{0:0.0}", t.defensiveSimilarities.ElementAt(i).Value * 100) + "%,");
+                    Console.Write("{0, 20}", elem.Key.ToString() + ":");
+                    Console.Write("{0, 20}", String.Format("{0:0.0}", elem.Value) + "%");
+                    csv.Append(elem.Key.ToString() + ": ," + String.Format("{0:0.0}", elem.Value) + "%,,");
 
-                Console.Write("{0, 16}", t.overallSimilarities.ElementAt(i).Key.ToString() + ": ");
-                Console.WriteLine("{0, 9}", String.Format("{0:0.0}", t.overallSimilarities.ElementAt(i).Value * 100) + "%");
-                csv.AppendLine(t.overallSimilarities.ElementAt(i).Key.ToString() + ": ,"
-                    + String.Format("{0:0.0}", t.overallSimilarities.ElementAt(i).Value * 100) + "%");
+                    if (j == 2)
+                    {
+                        Console.WriteLine();
+                        csv.AppendLine();
+                    }
+                }
+            }
+        }
+        File.WriteAllText(filePath, csv.ToString());
+    }
+
+    public void TypeSimilarityTable(string filePath)
+    {
+        var csv = new StringBuilder();
+        char delimiter = ',';
+
+        for (int i = 0; i < 3; ++i)
+        {
+            string title = i == 0 ? "OFFENSIVE SIMILARITIES" : i == 1 ? "DEFENSIVE SIMILARITIES" : "OVERALL SIMILARITIES";
+
+            Console.Write("{0, 40}", title);
+
+            if (i != 2)
+            {
+                csv.Append(title + delimiter + delimiter + delimiter);
+            }
+            else
+            {
+                csv.AppendLine(title);
             }
         }
 
+        Console.WriteLine();
+
+        for (int i = 0; i < 3; ++i)
+        {
+            Console.Write("{0, 20}", "TYPE");
+            Console.Write("{0, 20}", "SCORE");
+
+            if (i != 2)
+            {
+                csv.Append("TYPE, SCORE,,");
+            }
+            else
+            {
+                csv.AppendLine("TYPE, SCORE");
+            }
+        }
+
+        Console.WriteLine();
+
+        for (int i = 0; i < similaritiesByTotal.Count; ++i)
+        {
+            for (int j = 0; j < 3; ++j)
+            {
+                KeyValuePair<Tuple<PokemonType, PokemonType>, float> elem = j == 0 ? similaritiesByOffense.ElementAt(i) :
+                    j == 1 ? similaritiesByDefence.ElementAt(i) : similaritiesByTotal.ElementAt(i);
+
+                Console.Write("{0, 20}", TypeToString(elem.Key) + ":");
+                Console.Write("{0, 20}", String.Format("{0:0.0}", elem.Value) + "%");
+                csv.Append(TypeToString(elem.Key) + ": ," + String.Format("{0:0.0}", elem.Value) + "%,,");
+
+                if(j == 2)
+                {
+                    Console.WriteLine();
+                    csv.AppendLine();
+                }
+            }            
+        }
 
         File.WriteAllText(filePath, csv.ToString());
     }
@@ -363,19 +441,25 @@ public class TypeManager
         var csv = new StringBuilder();
         char delimiter = ',';
 
-        for (int i = 0; i < 6; ++i)
+        Console.Write("{0, 40}", "AVERAGE DAMAGE DEALT");
+        csv.Append("AVERAGE DAMAGE DEALT,,,");
+        Console.Write("{0, 40}", "AVERAGE DAMAGE TAKEN");
+        csv.Append("AVERAGE DAMAGE TAKEN,,,");
+        Console.WriteLine("{0, 40}", "OVERALL SCORE");
+        csv.AppendLine("OVERALL SCORE");
+
+        for (int i = 0; i < 3; ++i)
         {
-            string title = i%2 == 0 ? "TYPE" : i == 1 ? "AVERAGE DAMAGE DEALT" : i == 3 ? "AVERAGE DAMAGE TAKEN" : "OVERALL SCORE";
+            Console.Write("{0, 20}", "TYPE");
+            Console.Write("{0, 20}", "SCORE");
 
-            Console.Write("{0, 25}", title);
-
-            if (i != 5)
+            if (i != 2)
             {
-                csv.Append(title + delimiter);
+                csv.Append("TYPE, SCORE,,");
             }
             else
             {
-                csv.AppendLine(title);
+                csv.AppendLine("TYPE, SCORE");
             }
         }
 
@@ -391,37 +475,29 @@ public class TypeManager
 
                 if (singleType)
                 {
-                    current = j == 0 || j == 1 ? baseTypesByOffence[i] : j == 2 || j == 3 ? baseTypesByDefence[i] : baseTypesByTotal[i];
+                    current = j <= 1 ? baseTypesByOffence[i] : j <= 3 ? baseTypesByDefence[i] : baseTypesByTotal[i];
                 }
 
                 else
                 {
-                    current = j == 0 || j == 1 ? dualTypesByOffence[i] : j == 2 || j == 3 ? dualTypesByDefence[i] : dualTypesByTotal[i];
+                    current = j <= 1 ? dualTypesByOffence[i] : j <= 3 ? dualTypesByDefence[i] : dualTypesByTotal[i];
                 }
 
-                if (j == 0 || j == 2 || j == 4)
+                if (j % 2 == 0)
                 {
-                    if (singleType)
-                    {
-                        Console.Write("{0, 25}", ((MonoType)current).type);
-                        csv.Append(((MonoType)current).type.ToString() + delimiter);
-                    }
-
-                    else
-                    {
-                        Console.Write("{0, 25}", TypeToString(((Type)current).typePair));
-                        csv.Append(TypeToString(((Type)current).typePair) + delimiter);
-                    }
-
+                    string typeName = singleType ? ((MonoType)current).type.ToString() + ":" : TypeToString(((Type)current).typePair) + ":";
+                    Console.Write("{0, 20}", typeName);
+                    csv.Append(typeName + delimiter);
                 }
 
                 else
                 {
                     float value = j == 1 ? current.offensiveStat : j == 3 ? current.defensiveStat : current.totalStat;
-                    Console.Write("{0, 25}", (String.Format("{0:0.000}", value)));
+                    Console.Write("{0, 20}", (String.Format("{0:0.000}", value)));
+
                     if (j != 5)
                     {
-                        csv.Append(Convert.ToString(value) + delimiter);
+                        csv.Append(Convert.ToString(value) + delimiter + delimiter);
                     }
                     else
                     {
@@ -440,145 +516,103 @@ public class TypeManager
     {
         var csv = new StringBuilder();
 
-        if (singleType)
+        List<BaseType> typeConv = singleType ? types.Cast<BaseType>().ToList() : dualTypes.Cast<BaseType>().ToList();
+
+        foreach (var elem in typeConv)
         {
-            foreach (var t in types)
+            Console.WriteLine("------------------------" + elem + "------------------------" + "");
+            csv.AppendLine("------------------------" + elem + "------------------------");
+
+            float[] damages = { 0F, 0.25F, 0.5F, 1F, 2F, 4F };
+            string[] effects = new string[damages.Length];
+
+            for (int i = 0; i < 2; ++i)
             {
-                Console.WriteLine("------------------------" + t + "------------------------");
-                csv.AppendLine("------------------------" + t + "------------------------");
+                string title = i == 0 ? "|Attacking|" : "|Defending|";
+                Console.WriteLine(title);
+                csv.AppendLine(title);
 
-                for (int i = 0; i < 2; ++i)
+                Dictionary<float, int> damageMap = i == 0 ? elem.offensiveOccurence : elem.resistanceOccurence;
+
+                int pos = 0;
+                foreach (float s in damages)
                 {
-                    List<string> effects = new List<string>();
-                    float[] damages = { 0F, 0.5F, 1F, 2F };
-                    Dictionary<float, int> damageMap = i == 0 ? t.offensiveOccurence : t.resistanceOccurence;
+                    string str = damageMap.ContainsKey(s) ? Convert.ToString(damageMap[s]) : "0";
+                    effects[pos] = s.ToString() + "x" + "[" + str + "]: ";
+                    ++pos;
+                }
 
-                    foreach (float s in damages)
-                    {
-                        string str = damageMap.ContainsKey(s) ? Convert.ToString(damageMap[s]) : "0";
-                        effects.Add(s.ToString() + "x" + "[" + str + "]: ");
-                    }
+                bool[] first = { true, true, true, true, true, true };
 
-                    Dictionary<PokemonType, float> map = i == 0 ? t.offensive : t.resistance;
+                if (singleType)
+                {
+                    Dictionary<PokemonType, float> map = i == 0 ? ((MonoType)elem).offensive : ((MonoType)elem).resistance;
 
                     foreach (KeyValuePair<PokemonType, float> entry in map)
                     {
-                        string value = entry.Key.ToString();
-                        switch (entry.Value)
-                        {
-                            case 0F:
-                                effects[0] += (", " + value);
-                                break;
-                            case 0.5F:
-                                effects[1] += (", " + value);
-                                break;
-                            case 1F:
-                                effects[2] += (", " + value);
-                                break;
-                            case 2F:
-                                effects[3] += (", " + value);
-                                break;
-                        }
+                        AddEffectOntoString(entry.Value, entry.Key.ToString(), effects, first);
                     }
-
-                    if (i == 0)
-                    {
-                        Console.WriteLine("|Attacking|");
-                        csv.AppendLine("|Attacking|");
-                    }
-                    else
-                    {
-                        Console.WriteLine("|Defending|");
-                        csv.AppendLine("|Defending|");
-                    }
-
-                    foreach (string s in effects)
-                    {
-                        Console.WriteLine(s);
-                        csv.AppendLine(s);
-                    }
-
-                    float stat = i == 0 ? t.offensiveStat : t.defensiveStat;
-                    Console.WriteLine("Total Score: " + String.Format("{0:0.000}", stat));
-                    csv.AppendLine("Total Score: " + String.Format("{0:0.000}", stat));
                 }
-                csv.AppendLine();
-            }
-        }
-        else
-        {
-            foreach (var t in dualTypes)
-            {
-                Console.WriteLine("------------------------" + t + "------------------------" + "");
-                csv.AppendLine("------------------------" + t + "------------------------");
 
-                for (int i = 0; i < 2; ++i)
+                else
                 {
-                    List<string> effects = new List<string>();
-
-                    float[] damages = { 0F, 0.25F, 0.5F, 1F, 2F, 4F };
-                    Dictionary<float, int> damageMap = i == 0 ? t.offensiveOccurence : t.resistanceOccurence;
-
-                    foreach (float s in damages)
-                    {
-                        string str = damageMap.ContainsKey(s) ? Convert.ToString(damageMap[s]) : "0";
-                        effects.Add(s.ToString() + "x" + "[" + str + "]: ");
-                    }
-
-                    Dictionary<Tuple<PokemonType, PokemonType>, float> map = i == 0 ? t.offensive : t.resistance;
+                    Dictionary<Tuple<PokemonType, PokemonType>, float> map = i == 0 ? ((Type)elem).offensive : ((Type)elem).resistance;
 
                     foreach (KeyValuePair<Tuple<PokemonType, PokemonType>, float> entry in map)
                     {
-                        string value = TypeToString(entry.Key);
-                        switch (entry.Value)
-                        {
-                            case 0F:
-                                effects[0] += (", " + value);
-                                break;
-                            case 0.25F:
-                                effects[1] += (", " + value);
-                                break;
-                            case 0.5F:
-                                effects[2] += (", " + value);
-                                break;
-                            case 1F:
-                                effects[3] += (", " + value);
-                                break;
-                            case 2F:
-                                effects[4] += (", " + value);
-                                break;
-                            case 4F:
-                                effects[5] += (", " + value);
-                                break;
-                        }
+                        AddEffectOntoString(entry.Value, TypeToString(entry.Key), effects, first);                      
                     }
-
-                    if (i == 0)
-                    {
-                        Console.WriteLine("|Attacking|");
-                        csv.AppendLine("|Attacking|");
-                    }
-                    else
-                    {
-                        Console.WriteLine("|Defending|");
-                        csv.AppendLine("|Defending|");
-                    }
-
-                    foreach (string s in effects)
-                    {
-                        Console.WriteLine(s);
-                        csv.AppendLine(s);
-                    }
-
-                    float stat = i == 0 ? t.offensiveStat : t.defensiveStat;
-                    Console.WriteLine("{0}", "Total Score: " + stat);
-                    csv.AppendLine("Total Score: " + stat);
                 }
-                csv.AppendLine();
-            }
-        }
 
+                foreach (string consoleString in effects)
+                {
+                    Console.WriteLine(consoleString);
+                    int stringPos = consoleString.IndexOf(':');
+                    string csvString = consoleString.Insert(++stringPos, ",");
+                    csv.AppendLine(csvString);
+                }
+
+                float stat = i == 0 ? elem.offensiveStat : elem.defensiveStat;
+                Console.WriteLine("{0}", "Total Score: " + stat);
+                csv.AppendLine("Total Score:," + stat);
+
+            }
+
+            csv.AppendLine();
+        }
+    
         File.WriteAllText(filePath, csv.ToString());
+    }
+
+    public void AddEffectOntoString(float damage, string value, string[] effects, bool[] first)
+    {
+        switch (damage)
+        {
+            case 0F:
+                effects[0] += first[0] ? value : ", " + value;
+                first[0] = false;
+                break;
+            case 0.25F:
+                effects[1] += first[1] ? value : ", " + value;
+                first[1] = false;
+                break;
+            case 0.5F:
+                effects[2] += first[2] ? value : ", " + value;
+                first[2] = false;
+                break;
+            case 1F:
+                effects[3] += first[3] ? value : ", " + value;
+                first[3] = false;
+                break;
+            case 2F:
+                effects[4] += first[4] ? value : ", " + value;
+                first[4] = false;
+                break;
+            case 4F:
+                effects[5] += first[5] ? value : value + ", ";
+                first[5] = false;
+                break;
+        }
     }
 
     public List<MonoType> types { get; set; } = new List<MonoType>();
@@ -591,5 +625,10 @@ public class TypeManager
     public List<Type> dualTypesByOffence { get; set; }
     public List<Type> dualTypesByDefence { get; set; }
     public List<Type> dualTypesByTotal { get; set; }
+
+    public Dictionary<Tuple<PokemonType, PokemonType>, float> similaritiesByOffense = new Dictionary<Tuple<PokemonType, PokemonType>, float>();
+    public Dictionary<Tuple<PokemonType, PokemonType>, float> similaritiesByDefence = new Dictionary<Tuple<PokemonType, PokemonType>, float>();
+
+    public Dictionary<Tuple<PokemonType, PokemonType>, float> similaritiesByTotal = new Dictionary<Tuple<PokemonType, PokemonType>, float>();
 
 }
